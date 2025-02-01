@@ -1,0 +1,48 @@
+---
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "FlowLearn erbjuder innovativa webbapplikationer och konsulttjänster för att förenkla och förbättra lärande i en digital värld." } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="sv" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title} | FlowLearn</title>
+    <meta name="description" content={description} />
+  </head>
+  <body class="bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen">
+    <header class="fixed w-full top-0 z-50 bg-slate-900/80 border-b border-slate-700/80 backdrop-blur-sm">
+      <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
+        <a href="/" class="text-emerald-500 text-xl font-bold">FlowLearn</a>
+        <div class="flex gap-6">
+          <a href="/" class="text-slate-300 hover:text-white transition-colors">Hem</a>
+          <a href="/blogg" class="text-slate-300 hover:text-white transition-colors">Nyheter</a>
+          <a href="/#kontakt" class="text-slate-300 hover:text-white transition-colors">Kontakt</a>
+        </div>
+      </nav>
+    </header>
+
+    <main class="pt-20">
+      <slot />
+    </main>
+
+    <footer class="mt-20 border-t border-slate-700 py-8">
+      <div class="container mx-auto px-4">
+        <div class="flex justify-between items-center">
+          <p class="text-slate-300">&copy; 2025 FlowLearn. Alla rättigheter förbehållna.</p>
+          <div class="flex gap-4">
+            <a href="/integritetspolicy" class="text-slate-300 hover:text-white transition-colors">Integritetspolicy</a>
+            <a href="/anvandarvillkor" class="text-slate-300 hover:text-white transition-colors">Användarvillkor</a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -1,0 +1,151 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { getPosts } from '../../lib/wordpress';
+import type { Post } from '../../lib/wordpress';
+
+export const prerender = false;  // Enable server-side rendering
+
+export async function getStaticPaths() {
+  try {
+    const posts = await getPosts(1, 100); // Fetch up to 100 posts for static paths
+    return posts.map((post) => ({
+      params: { slug: post.slug },
+      props: { post },
+    }));
+  } catch (error) {
+    console.error('Error fetching posts for static paths:', error);
+    return [];
+  }
+}
+
+// Fetch post dynamically if not found in static paths
+let post: Post | null = null;
+let error: string | null = null;
+
+if (Astro.props.post) {
+  post = Astro.props.post;
+} else {
+  try {
+    const { slug } = Astro.params;
+    const posts = await getPosts(1, 100);
+    post = posts.find(p => p.slug === slug) || null;
+
+    if (!post) {
+      error = 'Kunde inte hitta inlägget';
+    }
+  } catch (e) {
+    console.error('Fel vid hämtning av nyhet:', e);
+    error = e instanceof Error ? e.message : 'Ett okänt fel inträffade';
+  }
+}
+---
+
+<MainLayout title={post ? `${post.title.rendered} | FlowLearn` : 'Inlägg hittades inte | FlowLearn'}>
+  <article class="mx-auto max-w-2xl lg:max-w-5xl px-6 py-16">
+    <div class="mx-auto">
+      {error && (
+        <div class="text-center py-16">
+          <h1 class="text-2xl font-bold text-white mb-4">
+            {error}
+          </h1>
+          <p class="text-zinc-400 mb-8">
+            Inlägget kunde inte hittas eller har tagits bort.
+          </p>
+          <a 
+            href="/blogg" 
+            class="text-primary hover:text-primary-hover transition-colors"
+          >
+            Gå till bloggsidan
+          </a>
+        </div>
+      )}
+
+      {post && (
+        <>
+          <header class="mb-8">
+            <time 
+              datetime={post.date} 
+              class="text-sm leading-6 text-zinc-500"
+            >
+              {new Date(post.date).toLocaleDateString('sv-SE', {
+                year: 'numeric',
+                month: 'long',
+                day: 'numeric'
+              })}
+            </time>
+            <h1 class="mt-2 text-3xl font-bold tracking-tight text-white sm:text-4xl">
+              {post.title.rendered}
+            </h1>
+          </header>
+
+          {post.featuredImage && (
+            <img
+              src={post.featuredImage}
+              alt={post.title.rendered}
+              class="aspect-[16/9] w-full rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800 mb-8"
+            />
+          )}
+
+          <div 
+            class="prose prose-lg prose-invert prose-zinc max-w-none"
+            set:html={post.content.rendered} 
+          />
+
+          <div class="mt-12 pt-8 border-t border-zinc-700/40">
+            <a 
+              href="/blogg" 
+              class="text-primary hover:text-primary-hover transition-colors flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 19-7-7 7-7"/>
+                <path d="M19 12H5"/>
+              </svg>
+              Tillbaka till alla inlägg
+            </a>
+          </div>
+        </>
+      )}
+    </div>
+  </article>
+</MainLayout>
+
+<style>
+  :global(.prose h1, .prose h2, .prose h3, .prose h4) {
+    color: theme(colors.zinc.100);
+    font-weight: 600;
+    margin-top: 2em;
+    margin-bottom: 1em;
+  }
+  
+  :global(.prose p, .prose li) {
+    color: theme(colors.zinc.400);
+    line-height: 1.75;
+  }
+
+  :global(.prose a) {
+    color: theme(colors.primary.DEFAULT);
+    text-decoration: none;
+  }
+
+  :global(.prose a:hover) {
+    color: theme(colors.primary.hover);
+  }
+
+  :global(.prose img) {
+    border-radius: theme(borderRadius.lg);
+    margin-top: 2em;
+    margin-bottom: 2em;
+  }
+
+  :global(.prose blockquote) {
+    border-left-color: theme(colors.zinc.700);
+    color: theme(colors.zinc.400);
+  }
+
+  :global(.prose code) {
+    background-color: theme(colors.zinc.800);
+    color: theme(colors.zinc.200);
+    padding: 0.2em 0.4em;
+    border-radius: theme(borderRadius.sm);
+  }
+</style>

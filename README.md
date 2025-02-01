@@ -46,3 +46,52 @@ All commands are run from the root of the project, from a terminal:
 ## 👀 Want to learn more?
 
 Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+
+## Deployment and Production Instructions
+
+### Prerequisites
+- Node.js 18+ 
+- npm 9+
+- Git
+
+### Local Development
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Create a `.env` file with necessary environment variables:
+   ```
+   WORDPRESS_URL=https://your-wordpress-site.com
+   WORDPRESS_USERNAME=your_username
+   WORDPRESS_PASSWORD=your_app_password
+   ```
+4. Run development server:
+   ```bash
+   npm run dev
+   ```
+
+### Production Deployment
+1. Ensure all environment variables are set
+2. Build the production site:
+   ```bash
+   npm run build
+   ```
+3. Deploy using the `deploy.sh` script (customize for your VPS)
+
+### Server Setup Recommendations
+- Use Nginx as a reverse proxy
+- Use PM2 for process management
+- Set up SSL with Let's Encrypt
+- Configure firewall rules
+
+### Troubleshooting
+- Check server logs: `pm2 logs flowlearn-web`
+- Verify environment variables
+- Ensure correct Node.js version
+
+### Technologies
+- Astro
+- React
+- Tailwind CSS
+- WordPress Headless CMS

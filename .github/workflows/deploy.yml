@@ -1,0 +1,49 @@
+name: Deploy to CloudPanel
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v3
+    
+    - name: Use Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '18.x'
+    
+    - name: Install Dependencies
+      run: npm install
+    
+    - name: Build Project
+      run: npm run build
+      env:
+        PUBLIC_WEB3FORMS_ACCESS_KEY: ${{ secrets.WEB3FORMS_ACCESS_KEY }}
+    
+    - name: Deploy to CloudPanel via SSH
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VPS_HOST }}
+        username: ${{ secrets.VPS_USERNAME }}
+        key: ${{ secrets.VPS_SSH_KEY }}
+        script: |
+          # Navigate to your web directory
+          cd /var/www/flowlearn/
+          
+          # Remove old build
+          rm -rf current/*
+          
+          # Copy new build
+          cp -r ${{ github.workspace }}/dist/* current/
+          
+          # Set permissions
+          chown -R www-data:www-data current
+          
+          # Restart web server if needed
+          systemctl restart nginx
