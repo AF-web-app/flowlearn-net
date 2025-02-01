@@ -8,9 +8,6 @@ REMOTE_HOST="cloudpanel@flowlearn.se"
 REMOTE_PATH="/var/www/flowlearn/htdocs"
 SSH_KEY="$HOME/.ssh/flowlearn_deploy_key"
 
-# Ensure we're on the main branch 
-git checkout main
-
 # Install dependencies
 npm install
 
