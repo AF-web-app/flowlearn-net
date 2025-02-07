@@ -135,90 +135,44 @@ export interface Post {
 }
 
 export async function getPosts(page = 1, perPage = 10, categoryId?: number): Promise<Post[]> {
-  console.log('[WORDPRESS] Starting getPosts function');
-  
   try {
-    const wordpressUrl = getWordPressUrl();
-    
-    if (!wordpressUrl) {
-      console.error('[WORDPRESS] No URL provided');
-      return [];
+    const wpUrl = getWordPressUrl();
+    if (!wpUrl) {
+      throw new Error('WordPress URL is not configured');
     }
 
-    const baseUrl = wordpressUrl.replace(/\/+$/, '');
-    const url = new URL(`${baseUrl}/wp-json/wp/v2/posts`);
-    
-    // Add comprehensive query parameters
-    url.searchParams.append('page', page.toString());
-    url.searchParams.append('per_page', perPage.toString());
-    url.searchParams.append('_embed', 'true');
-
+    let url = `${wpUrl}/wp-json/wp/v2/posts?page=${page}&per_page=${perPage}&_embed=true`;
     if (categoryId) {
-      url.searchParams.append('categories', categoryId.toString());
+      url += `&categories=${categoryId}`;
     }
 
-    console.log('[WORDPRESS] Fetch URL:', url.toString());
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: getAuthHeaders(),
+      agent: httpsAgent
+    });
 
-    try {
-      const authHeaders = getAuthHeaders();
-      console.log('[WORDPRESS] Request Headers:', JSON.stringify(authHeaders, null, 2));
-
-      const response = await fetch(url.toString(), {
-        method: 'GET',
-        agent: httpsAgent,
-        headers: authHeaders
-      } as RequestInit);
-      
-      console.log('[WORDPRESS] Response Status:', response.status);
-      
-      // Enhanced response handling
-      const responseText = await response.text();
-      console.log('[WORDPRESS] Response Length:', responseText.length);
-      console.log('[WORDPRESS] First 500 Response Characters:', responseText.slice(0, 500));
-
-      if (!response.ok) {
-        console.error('[WORDPRESS] API Request Failed', {
-          status: response.status,
-          statusText: response.statusText,
-          responseText
-        });
-        return [];
-      }
-      
-      try {
-        const posts: WordPressPostResponse[] = JSON.parse(responseText);
-        
-        console.log('[WORDPRESS] Posts Fetched:', posts.length);
-        if (posts.length > 0) {
-          console.log('[WORDPRESS] First Post Preview:', JSON.stringify(posts[0], null, 2));
-        }
-
-        return posts.map(post => ({
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          excerpt: post.excerpt,
-          date: post.date,
-          slug: post.slug,
-          status: post.status,  
-          featuredImage: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
-          categories: post.categories
-        }));
-      } catch (parseError) {
-        logDetailedError('JSON Parsing Error', parseError);
-        return [];
-      }
-    } catch (fetchError) {
-      if (fetchError instanceof FetchError) {
-        logDetailedError('Fetch Error', fetchError);
-      } else {
-        console.error('[WORDPRESS] Unexpected Fetch Error:', fetchError);
-      }
-      return [];
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    const posts: WordPressPostResponse[] = await response.json();
+    
+    return posts.map(post => ({
+      id: post.id,
+      title: post.title,
+      content: post.content,
+      excerpt: post.excerpt,
+      date: post.date,
+      slug: post.slug,
+      featuredImage: post._embedded?.['wp:featuredmedia']?.[0]?.source_url,
+      categories: post.categories,
+      status: post.status
+    }));
+
   } catch (error) {
-    logDetailedError('Unexpected WordPress Error', error);
-    return [];
+    logDetailedError('getPosts', error);
+    throw error;
   }
 }
 
