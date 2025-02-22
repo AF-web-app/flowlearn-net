@@ -1,107 +1,93 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { getPosts, getCategories } from '../../lib/wordpress';
-import type { Post } from '../../lib/wordpress';
+import { getPosts } from '../../lib/wordpress';
 
-export const prerender = false;  // Enable server-side rendering
+interface Post {
+  title: { rendered: string };
+  excerpt: { rendered: string };
+  featuredImage?: string;
+  slug: string;
+  date: string;
+}
 
 let posts: Post[] = [];
 let error: string | null = null;
 
 try {
-  posts = await getPosts();
-  const categories = await getCategories();
-} catch (e) {
+  posts = await getPosts(1, 10);
+  console.log(`✅ Successfully fetched ${posts.length} posts`);
+} catch (e: unknown) {
   console.error('❌ Error fetching posts:', e);
-  error = e instanceof Error ? e.message : 'Ett okänt fel inträffade vid hämtning av blogginlägg';
+  error = e instanceof Error ? e.message : 'An unknown error occurred';
+}
+
+function truncateText(text: string, maxLength: number = 150) {
+  if (!text) return '';
+  return text.length > maxLength 
+    ? text.substring(0, maxLength) + '...' 
+    : text;
 }
 ---
 
-<MainLayout title="Blogg - Flowlearn">
-  <div class="mx-auto max-w-2xl lg:max-w-5xl px-6">
-    <header class="max-w-2xl">
-      <h1 class="text-4xl font-bold tracking-tight text-white sm:text-5xl">
-        Blogg
-      </h1>
-      <p class="mt-6 text-base text-zinc-400">
-        Senaste inläggen från Flowlearn
-      </p>
-    </header>
-
+<MainLayout title="Blogg | FlowLearn">
+  <div class="container mx-auto px-4 py-12 max-w-6xl">
+    <div class="text-center mb-12">
+      <h1 class="text-4xl font-bold mb-4">Nyeheter och blogg</h1>
+      <p class="text-xl text-slate-300">Senaste insikterna inom AI och utbildning</p>
+    </div>
+    
     {error && (
-      <div class="mt-8 text-red-400 bg-red-900/50 p-4 rounded">
-        Fel vid hämtning av inlägg: {error}
+      <div class="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-4">
+        <p>Ett fel uppstod: {error}</p>
       </div>
     )}
+
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {posts.map(post => (
+        <article class="bg-slate-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 border border-slate-700">
+          {post.featuredImage && (
+            <img 
+              src={post.featuredImage} 
+              alt={post.title.rendered || 'Blogginlägg'} 
+              class="w-full h-48 object-cover"
+            />
+          )}
+          <div class="p-6">
+            <h2 
+              class="text-xl font-semibold text-white mb-3" 
+              set:html={post.title.rendered}
+            />
+            <div 
+              class="text-slate-300 mb-4 text-sm" 
+              set:html={truncateText(post.excerpt.rendered)}
+            />
+            <div class="flex items-center justify-between">
+              <a 
+                href={`/blogg/${post.slug}`} 
+                class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white px-4 py-2 rounded-lg transition-colors font-medium"
+              >
+                Läs mer
+              </a>
+              <time 
+                datetime={post.date} 
+                class="text-sm text-slate-400"
+              >
+                {new Date(post.date).toLocaleDateString('sv-SE', {
+                  year: 'numeric',
+                  month: 'long',
+                  day: 'numeric'
+                })}
+              </time>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
 
     {posts.length === 0 && !error && (
-      <div class="mt-8 text-yellow-400 bg-yellow-900/50 p-4 rounded">
-        Inga blogginlägg hittades.
+      <div class="text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
+        <p class="text-xl text-slate-300">Inga blogginlägg hittades</p>
       </div>
     )}
-
-    <div class="mt-16 sm:mt-20">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {posts.map((post) => (
-          <article class="group relative bg-zinc-800/50 rounded-2xl p-6 hover:bg-zinc-800/70 transition-all">
-            <a href={`/blogg/${post.slug}`} class="absolute inset-0 z-20 rounded-2xl" />
-            
-            {/* Miniatyrbild */}
-            <div class="relative aspect-[16/9] mb-6 overflow-hidden rounded-lg">
-              {post._embedded?.['wp:featuredmedia']?.[0]?.source_url ? (
-                <img 
-                  src={post._embedded['wp:featuredmedia'][0].source_url}
-                  alt={post.title.rendered}
-                  class="object-cover w-full h-full transform group-hover:scale-105 transition-transform duration-300"
-                />
-              ) : (
-                <div class="w-full h-full bg-zinc-700/50 flex items-center justify-center">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-zinc-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                  </svg>
-                </div>
-              )}
-            </div>
-
-            {/* Datum */}
-            <time 
-              class="relative z-10 text-sm text-zinc-500" 
-              datetime={post.date}
-            >
-              {new Date(post.date).toLocaleDateString('sv-SE')}
-            </time>
-
-            {/* Titel */}
-            <h2 class="relative z-10 mt-2 text-xl font-semibold tracking-tight text-zinc-100 group-hover:text-primary transition-colors">
-              {post.title.rendered}
-            </h2>
-
-            {/* Utdrag */}
-            <div 
-              class="relative z-10 mt-4 text-sm text-zinc-400 line-clamp-3 prose prose-sm prose-invert prose-zinc" 
-              set:html={post.excerpt.rendered.replace(/<\/?p>/g, '')} 
-            />
-
-            {/* Läs mer länk */}
-            <div class="relative z-10 mt-4 inline-flex items-center text-sm font-medium text-primary group-hover:text-primary-hover transition-colors">
-              Läs mer
-              <svg class="ml-1 h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
-                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
-              </svg>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
   </div>
 </MainLayout>
-
-<script>
-  import type { Post } from '../../lib/wordpress';
-  
-  declare global {
-    interface Window {
-      __INITIAL_POSTS__: Post[];
-    }
-  }
-</script>

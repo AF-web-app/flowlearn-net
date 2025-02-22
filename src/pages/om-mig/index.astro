@@ -1,0 +1,98 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+---
+
+<MainLayout title="Om mig | FlowLearn">
+  <section class="relative w-full h-[500px] -mt-20">
+    <img 
+      src="https://images.unsplash.com/photo-1509062522246-3755977927d7?auto=format&fit=crop&q=80&w=2070&h=800"
+      alt="Modern lärandemiljö med teknik"
+      class="w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 via-slate-900/60 to-slate-900"></div>
+    <div class="absolute inset-0 flex items-center justify-center">
+      <div class="text-center max-w-4xl mx-auto px-4">
+        <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">Om mig</h1>
+        <p class="text-xl md:text-2xl text-slate-200">
+          Pedagogisk innovation möter digital transformation
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <div class="bg-slate-900">
+    <div class="container mx-auto px-4 py-16 max-w-3xl">
+      <p class="text-lg md:text-xl text-slate-300 leading-relaxed text-center">
+        Jag är en engagerad pedagog och teknisk vägledare som kombinerar min pedagogiska erfarenhet med digital kompetens. I dagens snabbt föränderliga utbildningslandskap ser jag möjligheter att skapa meningsfulla kopplingar mellan traditionellt lärande och moderna digitala verktyg. Med förankring i pedagogiska teorier arbetar jag för att säkerställa att tekniken blir ett genomtänkt stöd för lärandet, inte bara ett självändamål. Min drivkraft är att göra utbildning mer tillgänglig och engagerande genom att förena det bästa från båda världar.
+      </p>
+    </div>
+
+    <div class="container mx-auto px-4 py-16 max-w-4xl">
+      <!-- Grid of competencies -->
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Academic Background -->
+        <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
+            </svg>
+            <h2 class="text-2xl font-semibold text-white">Akademisk Grund</h2>
+          </div>
+          <p class="text-slate-300">
+            Med en akademisk examen i pedagogik och en IKT-pedagogisk yrkesutbildning kombinerar jag djup pedagogisk förståelse med digital kompetens.
+          </p>
+        </div>
+
+        <!-- Coaching & Guidance -->
+        <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+            <h2 class="text-2xl font-semibold text-white">Coaching & Vägledning</h2>
+          </div>
+          <p class="text-slate-300">
+            Min långa erfarenhet av att vägleda och coacha personer har gett mig en unik förmåga att möta människor där de är och stödja deras utvecklingsresa.
+          </p>
+        </div>
+
+        <!-- Technical Competence -->
+        <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <h2 class="text-2xl font-semibold text-white">Teknisk Kompetens</h2>
+          </div>
+          <p class="text-slate-300">
+            Med bred teknisk kompetens och en naturlig förmåga att snabbt ta till mig ny teknik kan jag effektivt överbrygga klyftan mellan pedagogik och digitala verktyg.
+          </p>
+        </div>
+
+        <!-- Vision -->
+        <div class="bg-slate-800 p-8 rounded-xl border border-slate-700 hover:border-emerald-500/50 transition-colors">
+          <div class="flex items-center mb-4">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+            <h2 class="text-2xl font-semibold text-white">Vision</h2>
+          </div>
+          <p class="text-slate-300">
+            Jag drivs av att skapa innovativa digitala lärlösningar som kombinerar pedagogisk expertis med modern teknologi för att göra lärande mer tillgängligt och engagerande.
+          </p>
+        </div>
+      </div>
+
+      <!-- Contact section -->
+      <div class="mt-16 text-center">
+        <a 
+          href="/#kontakt" 
+          class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-3 rounded-lg transition-colors font-medium text-lg"
+        >
+          Kontakta mig
+        </a>
+      </div>
+    </div>
+  </div>
+</MainLayout>

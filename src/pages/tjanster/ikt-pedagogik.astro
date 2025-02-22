@@ -1,0 +1,183 @@
+---
+import MainLayout from '../../layouts/MainLayout.astro';
+import { BookOpen, Target, Users, ArrowRight, CheckCircle2 } from 'lucide-react';
+
+const title = "IKT-Pedagogik | Digitalt lärande och pedagogisk utveckling | FlowLearn";
+const description = "Modern pedagogik handlar om att skapa meningsfullt lärande. Vi hjälper dig att integrera digitala verktyg på ett sätt som stärker och utvecklar den pedagogiska processen.";
+---
+
+<MainLayout title={title} description={description}>
+  <div class="relative h-screen w-full overflow-hidden">
+    <img
+      src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=2600&h=1000"
+      alt="Digital pedagogik och lärande"
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/70 to-slate-900/90"></div>
+    <div class="absolute inset-0 flex items-center">
+      <div class="container mx-auto px-4">
+        <h1 class="text-5xl font-bold text-white mb-6 max-w-3xl">
+          IKT-Pedagogik
+        </h1>
+        <p class="text-xl text-slate-200 max-w-2xl">
+          Modern pedagogik handlar om att skapa meningsfullt lärande. Vi hjälper dig 
+          att integrera digitala verktyg på ett sätt som stärker och utvecklar den 
+          pedagogiska processen.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Approach Section -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-semibold text-slate-200 mb-8">Vår pedagogiska approach</h2>
+    <div class="grid md:grid-cols-3 gap-8">
+      <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+        <BookOpen class="h-8 w-8 text-emerald-500 mb-4" />
+        <h3 class="text-xl font-semibold text-white mb-3">Pedagogik först</h3>
+        <p class="text-slate-300">
+          Vi utgår alltid från pedagogiska mål och lärandemål. Tekniken är ett 
+          verktyg för att uppnå dessa, inte ett mål i sig självt.
+        </p>
+      </div>
+
+      <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+        <Target class="h-8 w-8 text-emerald-500 mb-4" />
+        <h3 class="text-xl font-semibold text-white mb-3">Målinriktat lärande</h3>
+        <p class="text-slate-300">
+          Varje digital lösning ska ha ett tydligt pedagogiskt syfte och bidra 
+          till att uppnå specifika lärandemål.
+        </p>
+      </div>
+
+      <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+        <Users class="h-8 w-8 text-emerald-500 mb-4" />
+        <h3 class="text-xl font-semibold text-white mb-3">Inkluderande design</h3>
+        <p class="text-slate-300">
+          Vi skapar lösningar som är tillgängliga för alla och som tar hänsyn 
+          till olika lärstilar och behov.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Services Section -->
+  <div class="mb-16">
+    <h2 class="text-2xl font-semibold text-slate-200 mb-8">Våra tjänster inom IKT-pedagogik</h2>
+    <div class="space-y-6">
+      <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
+        <div class="flex items-start gap-4">
+          <BookOpen class="w-8 h-8 text-emerald-500 mt-1" />
+          <div>
+            <h3 class="text-xl font-bold text-white mb-4">Pedagogisk utveckling</h3>
+            <p class="text-slate-300 mb-4">
+              Vi hjälper er att utveckla och implementera digitala pedagogiska strategier 
+              som stärker lärandet och engagerar deltagarna.
+            </p>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Analys av pedagogiska behov och möjligheter</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Utveckling av digitala pedagogiska strategier</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Integration av digitala verktyg i befintlig pedagogik</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
+        <div class="flex items-start gap-4">
+          <Target class="w-8 h-8 text-emerald-500 mt-1" />
+          <div>
+            <h3 class="text-xl font-bold text-white mb-4">Kompetensutveckling</h3>
+            <p class="text-slate-300 mb-4">
+              Vi erbjuder skräddarsydd utbildning för pedagoger och utbildare i att 
+              använda digitala verktyg på ett pedagogiskt effektivt sätt.
+            </p>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Workshops i digital pedagogik</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Handledning i pedagogisk användning av digitala verktyg</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Stöd i att utveckla digitala lärandeaktiviteter</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
+        <div class="flex items-start gap-4">
+          <Users class="w-8 h-8 text-emerald-500 mt-1" />
+          <div>
+            <h3 class="text-xl font-bold text-white mb-4">Utvärdering och utveckling</h3>
+            <p class="text-slate-300 mb-4">
+              Vi hjälper er att utvärdera och utveckla era digitala pedagogiska insatser 
+              för att säkerställa bästa möjliga läranderesultat.
+            </p>
+            <ul class="space-y-2">
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Analys av digitala lärandeaktiviteter</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Mätning och utvärdering av läranderesultat</span>
+              </li>
+              <li class="flex items-center gap-2 text-slate-300">
+                <ArrowRight class="w-4 h-4 text-emerald-500" />
+                <span>Kontinuerlig utveckling av pedagogiska metoder</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Call to Action -->
+  <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg text-center border border-slate-700/50">
+    <h2 class="text-2xl font-semibold text-white mb-4">
+      Låt oss utveckla er digitala pedagogik tillsammans
+    </h2>
+    <p class="text-lg text-slate-300 mb-6">
+      Vi hjälper er att skapa meningsfullt och effektivt lärande med rätt digitala verktyg.
+    </p>
+    <a 
+      href="/kontakt" 
+      class="inline-flex items-center gap-2 bg-emerald-600 text-white px-6 py-3 rounded-lg hover:bg-emerald-500 transition-colors"
+    >
+      Kontakta oss för en första dialog
+      <ArrowRight class="w-4 h-4" />
+    </a>
+  </div>
+</MainLayout>
+
+<script>
+  // Add transparency effect to header on scroll
+  const header = document.querySelector('header');
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      header.classList.add('bg-slate-900/75', 'backdrop-blur-sm', 'border-slate-800');
+      header.classList.remove('bg-transparent', 'border-transparent');
+    } else {
+      header.classList.remove('bg-slate-900/75', 'backdrop-blur-sm', 'border-slate-800');
+      header.classList.add('bg-transparent', 'border-transparent');
+    }
+  };
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+</script>

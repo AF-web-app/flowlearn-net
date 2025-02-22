@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import mysql from 'mysql2/promise';
+import type { Connection } from 'mysql2/promise';
 
 /// <reference types="node" />
 
