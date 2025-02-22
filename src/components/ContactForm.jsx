@@ -9,21 +9,21 @@ const SUBMISSION_ENDPOINTS = [
 
 export default function ContactForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
-  const [errorMessage, setErrorMessage] = useState<string>('');
+  const [submitStatus, setSubmitStatus] = useState('idle');
+  const [errorMessage, setErrorMessage] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     message: ''
   });
-  const [accessKey, setAccessKey] = useState<string | null>(null);
+  const [accessKey, setAccessKey] = useState(null);
 
   useEffect(() => {
     const key = import.meta.env.PUBLIC_WEB3FORMS_ACCESS_KEY || process.env.PUBLIC_WEB3FORMS_ACCESS_KEY;
     setAccessKey(key || null);
   }, []);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
       ...prev,
@@ -31,7 +31,7 @@ export default function ContactForm() {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     
     // Reset previous error state

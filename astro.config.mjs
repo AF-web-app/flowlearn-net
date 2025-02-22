@@ -1,53 +1,27 @@
 // @ts-check
 import { defineConfig } from 'astro/config';
-import tailwind from "@astrojs/tailwind";
-import react from "@astrojs/react";
-import node from "@astrojs/node";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
+import tailwind from '@astrojs/tailwind';
+import react from '@astrojs/react';
+import mdx from '@astrojs/mdx';
+import sitemap from '@astrojs/sitemap';
+import node from '@astrojs/node';
 import 'dotenv/config';
-import * as dotenv from 'dotenv';
-import path from 'path';
-
-// Ladda miljövariabler
-const loadEnv = () => {
-  const mode = process.env.NODE_ENV || 'development';
-  const envFiles = [
-    `.env.${mode}.local`,
-    `.env.${mode}`,
-    `.env.local`,
-    '.env'
-  ];
-
-  envFiles.forEach(file => {
-    const envPath = path.resolve(process.cwd(), file);
-    try {
-      const result = dotenv.config({ path: envPath });
-      if (result.error) {
-        console.warn(`[ENV_DEBUG] Could not load ${file}:`, result.error);
-      } else {
-        console.log(`[ENV_DEBUG] Loaded environment from ${file}`);
-      }
-    } catch (error) {
-      console.warn(`[ENV_DEBUG] Error loading ${file}:`, error);
-    }
-  });
-};
-
-loadEnv();
 
 // https://astro.build/config
 export default defineConfig({
-  output: 'server',
-  site: 'https://www.flowlearn.se',
+  site: 'https://flowlearn.se',
   base: '/',
   compressHTML: true,
   integrations: [
+    react({
+      include: ['**/*.{jsx,tsx}'],
+      experimentalReactChildren: true
+    }),
     tailwind(), 
-    react(),
     mdx(),
     sitemap()
   ],
+  output: 'server',
   adapter: node({
     mode: 'standalone'
   }),
@@ -59,6 +33,9 @@ export default defineConfig({
     assets: '_assets',
   },
   vite: {
+    ssr: {
+      noExternal: ['react-icons']
+    },
     define: {
       'process.env': process.env
     }

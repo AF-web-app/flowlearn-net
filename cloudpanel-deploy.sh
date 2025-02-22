@@ -63,7 +63,11 @@ ssh -i "$SSH_KEY" "$REMOTE_HOST" "
     rm deploy.tar.gz
     
     # Install dependencies
-    npm ci --production
+    npm ci --omit=dev
+    npm install react react-dom
+    
+    # Force correct esbuild version
+    npm install esbuild@0.23.1
     
     # Set correct ownership and permissions
     chown -R flowlearn:flowlearn .
