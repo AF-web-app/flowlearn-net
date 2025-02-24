@@ -42,17 +42,52 @@ if (Astro.props.post) {
 function processContent(content: string, featuredImageUrl: string | undefined): string {
   if (!featuredImageUrl || !content) return content;
   
-  // Extrahera första bildens src från innehållet
-  const imgMatch = content.match(/<img[^>]+src="([^"]+)"[^>]*>/);
-  const firstImageSrc = imgMatch?.[1] || null;
+  // Normalisera featured image URL
+  const normalizeUrl = (url: string) => {
+    return url
+      .replace(/^https?:\/\/[^\/]+/, '') // Remove domain
+      .replace(/\?.+$/, '') // Remove query parameters
+      .replace(/-\d+x\d+\./, '.') // Remove WordPress image size suffixes
+      .replace(/\/$/, ''); // Remove trailing slash
+  };
+
+  const normalizedFeaturedUrl = normalizeUrl(featuredImageUrl);
   
-  // Om första bilden matchar featured image, ta bort den
-  if (firstImageSrc === featuredImageUrl && imgMatch) {
-    content = content.replace(imgMatch[0], '');
+  // Ta bort både figure och img taggar som matchar
+  const figureRegex = /<figure[^>]*>.*?<img[^>]+src="([^"]+)"[^>]*>.*?<\/figure>/g;
+  const imgRegex = /<img[^>]+src="([^"]+)"[^>]*>/g;
+  
+  // Först försök ta bort figure taggar
+  let modified = false;
+  content = content.replace(figureRegex, (match, src) => {
+    if (normalizeUrl(src) === normalizedFeaturedUrl) {
+      modified = true;
+      return '';
+    }
+    return match;
+  });
+  
+  // Om ingen figure togs bort, försök ta bort enskilda img taggar
+  if (!modified) {
+    content = content.replace(imgRegex, (match, src) => {
+      if (normalizeUrl(src) === normalizedFeaturedUrl) {
+        return '';
+      }
+      return match;
+    });
   }
   
-  return content;
+  return content.trim();
 }
+
+// Kontrollera om första bilden i innehållet är featured image
+function hasImageInContent(content: string): boolean {
+  const imgRegex = /<img[^>]+src="[^"]+"[^>]*>/;
+  return imgRegex.test(content);
+}
+
+// Bestäm om vi ska visa featured image
+const showFeaturedImage = post && post.featuredImage && !hasImageInContent(post.content.rendered);
 
 const processedContent = post ? processContent(post.content.rendered, post.featuredImage) : '';
 ---
@@ -94,19 +129,17 @@ const processedContent = post ? processContent(post.content.rendered, post.featu
           </h1>
         </header>
 
-        {post.featuredImage && (
+        {showFeaturedImage && (
           <img
             src={post.featuredImage}
             alt={post.title.rendered}
             class="aspect-[16/9] w-full rounded-2xl bg-zinc-100 object-cover dark:bg-zinc-800 mb-8"
-            onerror="this.style.display='none'"
-            onload="console.log('Image loaded:', this.src)"
           />
         )}
 
         <div 
           class="prose prose-lg prose-invert prose-zinc max-w-none"
-          set:html={processedContent} 
+          set:html={post.content.rendered} 
         />
 
         <div class="mt-12 pt-8 border-t border-zinc-700/40">
