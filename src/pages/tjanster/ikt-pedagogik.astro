@@ -1,13 +1,13 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { BookOpen, Target, Users, ArrowRight, CheckCircle2 } from 'lucide-react';
+import { BookOpen, Target, Users, ArrowRight, CheckCircle2, FileCheck } from 'lucide-react';
 
 const title = "IKT-Pedagogik | Digitalt lärande och pedagogisk utveckling | FlowLearn";
-const description = "Modern pedagogik handlar om att skapa meningsfullt lärande. Vi hjälper dig att integrera digitala verktyg på ett sätt som stärker och utvecklar den pedagogiska processen.";
+const description = "Modern pedagogik handlar om att skapa meningsfullt lärande i en digital värld. Vi hjälper dig att strategiskt integrera digitala verktyg som stärker och utvecklar den pedagogiska processen, med fokus på konkreta resultat och förankring i forskning.";
 ---
 
 <MainLayout title={title} description={description}>
-  <div class="relative h-screen w-full overflow-hidden -mt-[72px]">
+  <div class="relative h-screen w-full overflow-hidden -mt-[80px]">
     <img
       src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=2600&h=1000"
       alt="Digital pedagogik och lärande"
@@ -20,9 +20,9 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
           IKT-Pedagogik
         </h1>
         <p class="text-xl text-slate-200 max-w-2xl">
-          Modern pedagogik handlar om att skapa meningsfullt lärande. Vi hjälper dig 
-          att integrera digitala verktyg på ett sätt som stärker och utvecklar den 
-          pedagogiska processen.
+          Modern pedagogik handlar om att skapa meningsfullt lärande i en digital värld. 
+          Vi hjälper dig att strategiskt integrera digitala verktyg som stärker och utvecklar 
+          den pedagogiska processen, med fokus på konkreta resultat och förankring i forskning.
         </p>
       </div>
     </div>
@@ -32,7 +32,7 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
     {/* Approach Section */}
     <div class="mb-16">
       <h2 class="text-2xl font-semibold text-white mb-8">Vår pedagogiska approach</h2>
-      <div class="grid md:grid-cols-3 gap-8">
+      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
         <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
           <BookOpen className="h-8 w-8 text-emerald-500 mb-4" />
           <h3 class="text-xl font-semibold text-white mb-3">Pedagogik först</h3>
@@ -59,6 +59,15 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
             till olika lärstilar och behov.
           </p>
         </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <FileCheck className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Evidensbaserad praktik</h3>
+          <p class="text-slate-300">
+            Vi bygger våra rekommendationer på forskning och beprövad erfarenhet, och hjälper 
+            dig att implementera digitala lösningar med dokumenterad effekt på lärande.
+          </p>
+        </div>
       </div>
     </div>
 
@@ -70,10 +79,9 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
           <div class="flex items-start gap-4">
             <BookOpen className="w-8 h-8 text-emerald-500 mt-1" />
             <div>
-              <h3 class="text-xl font-bold text-white mb-4">Pedagogisk utveckling</h3>
+              <h3 class="text-xl font-bold text-white mb-4">Strategisk IKT-planering</h3>
               <p class="text-slate-300 mb-4">
-                Vi hjälper er att utveckla och implementera digitala pedagogiska strategier 
-                som stärker lärandet och engagerar deltagarna.
+                Vi hjälper er att utveckla en genomtänkt plan för hur digitala verktyg ska stödja och förstärka er pedagogiska vision.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
@@ -88,6 +96,10 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
                   <span>Integration av digitala verktyg i befintlig pedagogik</span>
                 </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Framtagning av handlingsplaner för digital transformation</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -99,8 +111,7 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
             <div>
               <h3 class="text-xl font-bold text-white mb-4">Kompetensutveckling</h3>
               <p class="text-slate-300 mb-4">
-                Vi erbjuder skräddarsydd utbildning för pedagoger och utbildare i att 
-                använda digitala verktyg på ett pedagogiskt effektivt sätt.
+                Vi erbjuder skräddarsydd utbildning som ger pedagoger praktiska färdigheter och självförtroende i att använda digitala verktyg pedagogiskt effektivt.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
@@ -115,6 +126,10 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
                   <span>Stöd i att utveckla digitala lärandeaktiviteter</span>
                 </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Kollegialt lärande och digitala nätverk</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -124,10 +139,39 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
           <div class="flex items-start gap-4">
             <Users className="w-8 h-8 text-emerald-500 mt-1" />
             <div>
+              <h3 class="text-xl font-bold text-white mb-4">Digital lärandedesign</h3>
+              <p class="text-slate-300 mb-4">
+                Vi hjälper er att utforma digitala lärmiljöer och aktiviteter som engagerar, motiverar och ger effektivt lärande.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Design av digitala läraktiviteter och lärmiljöer</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Utveckling av interaktiva lärresurser</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Blended learning-strategier</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Gamification och spelbaserat lärande</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
+          <div class="flex items-start gap-4">
+            <CheckCircle2 className="w-8 h-8 text-emerald-500 mt-1" />
+            <div>
               <h3 class="text-xl font-bold text-white mb-4">Utvärdering och utveckling</h3>
               <p class="text-slate-300 mb-4">
-                Vi hjälper er att utvärdera och utveckla era digitala pedagogiska insatser 
-                för att säkerställa bästa möjliga läranderesultat.
+                Vi hjälper er att utvärdera och utveckla era digitala pedagogiska insatser för att säkerställa bästa möjliga läranderesultat.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
@@ -142,6 +186,10 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
                   <span>Kontinuerlig utveckling av pedagogiska metoder</span>
                 </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Datadrivet beslutsfattande för pedagogisk utveckling</span>
+                </li>
               </ul>
             </div>
           </div>
@@ -149,12 +197,43 @@ const description = "Modern pedagogik handlar om att skapa meningsfullt lärande
       </div>
     </div>
 
+    {/* Focus Areas Section */}
+    <div class="mb-16">
+      <h2 class="text-2xl font-semibold text-white mb-8">Särskilda fokusområden</h2>
+      <div class="grid md:grid-cols-3 gap-8">
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <h3 class="text-xl font-semibold text-white mb-3">Hybrid- och fjärrundervisning</h3>
+          <p class="text-slate-300">
+            Vi hjälper er att utveckla effektiva metoder för undervisning som fungerar både på distans 
+            och i klassrummet, med fokus på pedagogisk kvalitet oavsett format.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <h3 class="text-xl font-semibold text-white mb-3">AI i lärandet</h3>
+          <p class="text-slate-300">
+            Vi guidar er i hur artificiell intelligens kan användas som pedagogiskt verktyg, både för 
+            att stödja lärare och för att skapa personaliserade lärmöjligheter för elever och studenter.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <h3 class="text-xl font-semibold text-white mb-3">Digital tillgänglighet</h3>
+          <p class="text-slate-300">
+            Vi säkerställer att era digitala lösningar är tillgängliga för alla, oavsett funktionsvariation 
+            eller särskilda behov, i linje med gällande lagkrav och riktlinjer.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Call to Action */}
     <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg text-center border border-slate-700/50">
       <h2 class="text-2xl font-semibold text-white mb-4">
         Redo att utveckla er digitala pedagogik?
       </h2>
       <p class="text-lg text-slate-300 mb-6">
-        Låt oss tillsammans skapa en lärmiljö som stärker och utvecklar er verksamhet.
+        Låt oss tillsammans skapa en lärmiljö som stärker lärandet och förbereder era elever för framtidens digitala värld.
       </p>
       <a 
         href="/#kontakt" 

@@ -8,7 +8,7 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
 
 <MainLayout title={title} description={description}>
   {/* Hero Section */}
-  <div class="relative h-screen w-full overflow-hidden -mt-[72px]">
+  <div class="relative h-screen w-full overflow-hidden -mt-[80px]">
     <img
       src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?auto=format&fit=crop&q=80&w=1920&h=1080"
       alt="Digital education and learning"
@@ -19,29 +19,29 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
       <div class="container mx-auto px-4 pt-20">
         <div class="max-w-3xl">
           <h1 class="text-5xl font-bold text-white mb-6">
-            Digital transformation som stärker lärande och utveckling
+            Digital strategi med praktisk implementering
           </h1>
           <p class="text-xl text-slate-200 mb-8">
-            FlowLearn kombinerar pedagogisk expertis med teknisk innovation för att skapa digitala lösningar som förenklar, engagerar och ger resultat.
+            Vi kombinerar strategisk IT-rådgivning med IKT-pedagogik och tekniska lösningar. FlowLearn guidar organisationer genom den digitala transformationen med expertis inom strategisk planering, IKT-pedagogik och teknisk implementering. Vi hjälper dig utveckla en digital strategi som förenklar, engagerar och ger mätbara resultat.
           </p>
           <ul class="space-y-3 mb-8">
             <li class="flex items-center gap-3 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m5 12 5 5L20 7"></path>
               </svg>
-              Pedagogiskt förankrade digitala verktyg
+              Strategisk IT-rådgivning för verksamhetsutveckling
             </li>
             <li class="flex items-center gap-3 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m5 12 5 5L20 7"></path>
               </svg>
-              Strategisk IT-rådgivning
+              IKT-pedagogik som stärker lärande och digitala kompetenser
             </li>
             <li class="flex items-center gap-3 text-slate-200">
               <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-emerald-500" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="m5 12 5 5L20 7"></path>
               </svg>
-              Skräddarsydda implementeringslösningar
+              Skräddarsydda digitala lösningar med fokus på användbarhet
             </li>
           </ul>
           <a href="#kontakt" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-3 rounded-lg transition-colors">
@@ -54,7 +54,17 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
 
   {/* Services Section */}
   <section class="container mx-auto px-4 py-20">
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+      <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
+        <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-bold mb-4">Strategisk rådgivning</h3>
+        <p class="text-slate-300">Strategisk IT-rådgivning som utvecklar verksamheten. Vi analyserar behov, kartlägger möjligheter och skapar digitala strategier som stärker organisationen och förbereder för framtiden.</p>
+      </div>
+
       <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
         <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -62,7 +72,7 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
           </svg>
         </div>
         <h3 class="text-xl font-bold mb-4">IKT-Pedagogik</h3>
-        <p class="text-slate-300">Maximera lärandet genom innovativ digital pedagogik. Vi hjälper dig integrera moderna verktyg och metoder som engagerar, inspirerar och ger mätbara resultat.</p>
+        <p class="text-slate-300">Maximera lärandet genom innovativ digital pedagogik. Vi hjälper dig integrera digitala verktyg i det pedagogiska arbetet med metoder som engagerar, inspirerar och ger mätbara resultat.</p>
       </div>
 
       <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
@@ -72,17 +82,17 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
           </svg>
         </div>
         <h3 class="text-xl font-bold mb-4">Webbapplikationer</h3>
-        <p class="text-slate-300">Moderna digitala plattformar som gör utbildning tillgänglig och effektiv. Skräddarsydda webbapplikationer som förenklar och stärker det pedagogiska arbetet.</p>
+        <p class="text-slate-300">Skräddarsydda webbapplikationer som förenklar det pedagogiska arbetet. Moderna digitala plattformar som gör utbildning tillgänglig, effektiv och engagerande genom användarvänlig design.</p>
       </div>
 
       <div class="bg-slate-800 p-8 rounded-lg border border-slate-700">
         <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4">
           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
           </svg>
         </div>
-        <h3 class="text-xl font-bold mb-4">Konsulttjänster</h3>
-        <p class="text-slate-300">Strategisk IT-rådgivning som utvecklar er verksamhet. Vi guidar er genom digitaliseringen med fokus på hållbara lösningar som stärker organisation och personal.</p>
+        <h3 class="text-xl font-bold mb-4">Implementering & Support</h3>
+        <p class="text-slate-300">Praktisk implementation, utbildning och kontinuerlig support. Vi säkerställer att din digitala transformation förankras i organisationen och ger långsiktiga resultat.</p>
       </div>
     </div>
   </section>
@@ -91,40 +101,22 @@ const description = "FlowLearn erbjuder innovativa webbapplikationer och konsult
   <section class="container mx-auto px-4 py-20 bg-slate-800">
     <div class="max-w-4xl mx-auto">
       <h2 class="text-3xl font-bold mb-8 text-center">Om FlowLearn</h2>
-      <p class="text-slate-300 text-lg mb-8 text-center">
-        FlowLearn är ett startup med fokus på att revolutionera lärande genom innovativa digitala lösningar och expertis inom IKT-pedagogik. 
-        Vår mission är att skapa användarvänliga verktyg och strategier som gör det enkelt för skolor, utbildare och företag att lyckas i den digitala tidsåldern.
+      <p class="text-slate-300 text-lg mb-12 text-center">
+        FlowLearn erbjuder ett unikt helhetsperspektiv på digital transformation med strategisk rådgivning, IKT-pedagogik och teknisk implementation. Vår mission är att kombinera pedagogisk expertis med digital innovation för att skapa lösningar som gör det enkelt för skolor, utbildare och företag att lyckas i den digitala tidsåldern.
       </p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-        <div class="text-center">
-          <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4 mx-auto">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2">Vision</h3>
-          <p class="text-slate-300">Att vara ledande inom digital transformation av lärande</p>
-        </div>
 
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
         <div class="text-center">
-          <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4 mx-auto">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2">Innovation</h3>
-          <p class="text-slate-300">Moderna lösningar för framtidens utmaningar</p>
+          <h3 class="text-xl font-bold mb-4">Vision</h3>
+          <p class="text-slate-300">Att vara ledande inom kombinationen av strategisk IT-rådgivning och IKT-pedagogik</p>
         </div>
-
         <div class="text-center">
-          <div class="bg-emerald-900/50 w-12 h-12 rounded-lg flex items-center justify-center mb-4 mx-auto">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-emerald-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          </div>
-          <h3 class="text-xl font-bold mb-2">Expertis</h3>
-          <p class="text-slate-300">Gedigen akademisk och praktisk erfarenhet</p>
+          <h3 class="text-xl font-bold mb-4">Innovation</h3>
+          <p class="text-slate-300">Moderna digitala lösningar som stärker lärande och organisationsutveckling</p>
+        </div>
+        <div class="text-center">
+          <h3 class="text-xl font-bold mb-4">Expertis</h3>
+          <p class="text-slate-300">Gedigen akademisk och praktisk erfarenhet inom pedagogik, IT-strategi och webbutveckling</p>
         </div>
       </div>
     </div>

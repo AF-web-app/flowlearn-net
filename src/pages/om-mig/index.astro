@@ -14,7 +14,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
       <div class="text-center max-w-4xl mx-auto px-4">
         <h1 class="text-5xl md:text-6xl font-bold text-white mb-6">Om mig</h1>
         <p class="text-xl md:text-2xl text-slate-200">
-          Pedagogisk innovation möter digital transformation
+          Strategisk IT-rådgivning med pedagogisk förankring
         </p>
       </div>
     </div>
@@ -23,7 +23,7 @@ import MainLayout from '../../layouts/MainLayout.astro';
   <div class="bg-slate-900">
     <div class="container mx-auto px-4 py-16 max-w-3xl">
       <p class="text-lg md:text-xl text-slate-300 leading-relaxed text-center">
-        Jag är en engagerad pedagog och teknisk vägledare som kombinerar min pedagogiska erfarenhet med digital kompetens. I dagens snabbt föränderliga utbildningslandskap ser jag möjligheter att skapa meningsfulla kopplingar mellan traditionellt lärande och moderna digitala verktyg. Med förankring i pedagogiska teorier arbetar jag för att säkerställa att tekniken blir ett genomtänkt stöd för lärandet, inte bara ett självändamål. Min drivkraft är att göra utbildning mer tillgänglig och engagerande genom att förena det bästa från båda världar.
+        Jag kombinerar strategisk IT-kompetens med gedigen pedagogisk erfarenhet för att hjälpa organisationer navigera i den digitala transformationen. I skärningspunkten mellan teknik och pedagogik ser jag möjligheter att skapa meningsfulla digitala lösningar som faktiskt fungerar i praktiken. Med förankring i både pedagogiska teorier och teknisk kunskap säkerställer jag att digitaliseringen blir ett genomtänkt stöd för verksamheten, inte bara ett självändamål. Min drivkraft är att göra digital transformation begriplig, hanterbar och värdeskapande.
       </p>
     </div>
 
@@ -36,10 +36,10 @@ import MainLayout from '../../layouts/MainLayout.astro';
             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-emerald-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path d="M4.26 10.147a60.436 60.436 0 00-.491 6.347A48.627 48.627 0 0112 20.904a48.627 48.627 0 018.232-4.41 60.46 60.46 0 00-.491-6.347m-15.482 0a50.57 50.57 0 00-2.658-.813A59.905 59.905 0 0112 3.493a59.902 59.902 0 0110.399 5.84c-.896.248-1.783.52-2.658.814m-15.482 0A50.697 50.697 0 0112 13.489a50.702 50.702 0 017.74-3.342M6.75 15a.75.75 0 100-1.5.75.75 0 000 1.5zm0 0v-3.675A55.378 55.378 0 0112 8.443m-7.007 11.55A5.981 5.981 0 006.75 15.75v-1.5" />
             </svg>
-            <h2 class="text-2xl font-semibold text-white">Akademisk Grund</h2>
+            <h2 class="text-2xl font-semibold text-white">Strategisk IT-rådgivning</h2>
           </div>
           <p class="text-slate-300">
-            Med en akademisk examen i pedagogik och en IKT-pedagogisk yrkesutbildning kombinerar jag djup pedagogisk förståelse med digital kompetens.
+            Med analytiskt perspektiv och verksamhetsförståelse hjälper jag organisationer att utveckla digitala strategier som skapar verkligt värde och stödjer långsiktig utveckling.
           </p>
         </div>
 
@@ -96,3 +96,18 @@ import MainLayout from '../../layouts/MainLayout.astro';
     </div>
   </div>
 </MainLayout>
+
+<script>
+  // Add background to header when scrolling
+  const header = document.querySelector('header');
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('bg-slate-900/80', 'border-b', 'border-slate-700/80', 'backdrop-blur-sm');
+    } else {
+      header?.classList.remove('bg-slate-900/80', 'border-b', 'border-slate-700/80', 'backdrop-blur-sm');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initial check
+</script>

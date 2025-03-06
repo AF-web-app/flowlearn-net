@@ -94,3 +94,18 @@ function truncateText(text: string, maxLength: number = 150) {
     )}
   </div>
 </MainLayout>
+
+<script>
+  // Add background to header when scrolling
+  const header = document.querySelector('header');
+  const handleScroll = () => {
+    if (window.scrollY > 50) {
+      header?.classList.add('bg-slate-900/80', 'border-b', 'border-slate-700/80', 'backdrop-blur-sm');
+    } else {
+      header?.classList.remove('bg-slate-900/80', 'border-b', 'border-slate-700/80', 'backdrop-blur-sm');
+    }
+  };
+
+  window.addEventListener('scroll', handleScroll);
+  handleScroll(); // Initial check
+</script>

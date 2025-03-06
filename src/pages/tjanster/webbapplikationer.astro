@@ -1,16 +1,16 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { Settings, Search, Code, Puzzle, ArrowRight, CheckCircle2, LayoutGrid, Binary } from 'lucide-react';
+import { Search, Layers, ArrowRight, RefreshCcw, Code2, BookOpen } from 'lucide-react';
 
-const title = "Webbapplikationer | Digitala verktyg och lösningar | FlowLearn";
-const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som bäst möter era behov. Från befintliga lösningar till skräddarsydda applikationer - alltid med fokus på användarvänlighet och pedagogiskt värde.";
+const title = "Webbapplikationer | Skräddarsydda digitala lösningar | FlowLearn";
+const description = "Vi hjälper er navigera i den digitala utvecklingen genom att hitta eller skapa de webblösningar som optimalt möter era behov. Från strategisk rådgivning till skräddarsydd utveckling – alltid med fokus på användarvänlighet och pedagogiskt värde.";
 ---
 
 <MainLayout title={title} description={description}>
-  <div class="relative h-screen w-full overflow-hidden -mt-[72px]">
+  <div class="relative h-screen w-full overflow-hidden -mt-[80px]">
     <img
-      src="https://images.unsplash.com/photo-1547658719-da2b51169166?auto=format&fit=crop&q=80&w=2600&h=1000"
-      alt="Webbapplikationer och digitala verktyg"
+      src="https://images.unsplash.com/photo-1551434678-e076c223a692?auto=format&fit=crop&q=80&w=2600&h=1000"
+      alt="Webbapplikationer och digital utveckling"
       class="absolute inset-0 w-full h-full object-cover"
     />
     <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 to-slate-900/90"></div>
@@ -20,9 +20,10 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
           Webbapplikationer
         </h1>
         <p class="text-xl text-slate-200 max-w-2xl">
-          Vi hjälper er hitta eller utveckla de digitala verktyg som bäst möter era behov. 
-          Från befintliga lösningar till skräddarsydda applikationer - alltid med fokus på 
-          användarvänlighet och pedagogiskt värde.
+          Vi hjälper er navigera i den digitala utvecklingen genom att hitta eller skapa de webblösningar 
+          som optimalt möter era behov. Från strategisk rådgivning och utvärdering av befintliga system 
+          till skräddarsydd utveckling och implementation – alltid med fokus på användarvänlighet, 
+          pedagogiskt värde och långsiktig hållbarhet.
         </p>
       </div>
     </div>
@@ -37,26 +38,29 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
           <Search className="h-8 w-8 text-emerald-500 mb-4" />
           <h3 class="text-xl font-semibold text-white mb-3">Behovsanalys</h3>
           <p class="text-slate-300">
-            Vi börjar alltid med att förstå era specifika behov, mål och förutsättningar. 
-            Detta säkerställer att vi hittar eller utvecklar rätt lösning för er situation.
+            Vi börjar alltid med att förstå era specifika behov, mål och pedagogiska kontext. 
+            Detta säkerställer att vi hittar eller utvecklar rätt digital lösning som verkligen 
+            skapar värde i er verksamhet.
           </p>
         </div>
 
         <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
-          <Puzzle className="h-8 w-8 text-emerald-500 mb-4" />
+          <Layers className="h-8 w-8 text-emerald-500 mb-4" />
           <h3 class="text-xl font-semibold text-white mb-3">Flexibla lösningar</h3>
           <p class="text-slate-300">
-            Vi erbjuder både befintliga verktyg och skräddarsydda utvecklingsprojekt, 
-            alltid anpassade efter era pedagogiska mål och tekniska förutsättningar.
+            Varje verksamhet är unik. Vi erbjuder därför både vägledning kring befintliga 
+            verktyg och skräddarsydd utveckling, alltid anpassat efter era pedagogiska mål 
+            och tekniska förutsättningar.
           </p>
         </div>
 
         <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
-          <Settings className="h-8 w-8 text-emerald-500 mb-4" />
+          <RefreshCcw className="h-8 w-8 text-emerald-500 mb-4" />
           <h3 class="text-xl font-semibold text-white mb-3">Kontinuerlig utveckling</h3>
           <p class="text-slate-300">
-            Vi följer upp, utvärderar och anpassar kontinuerligt för att säkerställa 
-            att lösningen fortsätter möta era behov över tid.
+            Digitala behov förändras över tid. Vi erbjuder kontinuerlig support, utvärdering 
+            och vidareutveckling för att säkerställa att era digitala lösningar fortsätter 
+            att leverera värde.
           </p>
         </div>
       </div>
@@ -70,23 +74,27 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
           <div class="flex items-start gap-4">
             <Search className="w-8 h-8 text-emerald-500 mt-1" />
             <div>
-              <h3 class="text-xl font-bold text-white mb-4">Kartläggning och rådgivning</h3>
+              <h3 class="text-xl font-bold text-white mb-4">Strategisk digital rådgivning</h3>
               <p class="text-slate-300 mb-4">
-                Vi hjälper er navigera i det stora utbudet av digitala verktyg och hittar 
-                de lösningar som bäst passar era behov.
+                Vi hjälper er att skapa en tydlig strategi för era digitala verktyg och webblösningar, 
+                med fokus på hållbarhet och långsiktig nytta.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Genomgång av befintliga digitala verktyg och system</span>
+                  <span>Analys av digitala behov och nuvarande lösningar</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Rekommendationer baserade på era specifika behov</span>
+                  <span>Strategisk planering för webbbaserade verktyg</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Kostnad-nyttoanalys av olika alternativ</span>
+                  <span>Utvärdering av befintliga system och plattformar</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Kostnad-nyttoanalys för olika digitala alternativ</span>
                 </li>
               </ul>
             </div>
@@ -95,25 +103,29 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
 
         <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
           <div class="flex items-start gap-4">
-            <Code className="w-8 h-8 text-emerald-500 mt-1" />
+            <Code2 className="w-8 h-8 text-emerald-500 mt-1" />
             <div>
               <h3 class="text-xl font-bold text-white mb-4">Skräddarsydd utveckling</h3>
               <p class="text-slate-300 mb-4">
-                När befintliga lösningar inte räcker till utvecklar vi specialanpassade 
-                webbapplikationer som exakt matchar era behov.
+                När standardlösningar inte räcker till utvecklar vi specialanpassade webbapplikationer 
+                som exakt matchar era unika behov och processer.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Utveckling av pedagogiska plattformar</span>
+                  <span>Utveckling av pedagogiska plattformar och lärmiljöer</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Integration med befintliga system</span>
+                  <span>Användarcentrerad design med fokus på tillgänglighet</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Anpassade lösningar för specifika lärandemål</span>
+                  <span>Integration med befintliga system och databaser</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Progressive Web Apps (PWA) för flexibel användning</span>
                 </li>
               </ul>
             </div>
@@ -122,25 +134,60 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
 
         <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
           <div class="flex items-start gap-4">
-            <Settings className="w-8 h-8 text-emerald-500 mt-1" />
+            <Layers className="w-8 h-8 text-emerald-500 mt-1" />
             <div>
               <h3 class="text-xl font-bold text-white mb-4">Implementation och support</h3>
               <p class="text-slate-300 mb-4">
-                Vi stödjer er genom hela processen från val av verktyg till implementation 
-                och kontinuerlig utveckling.
+                Vi stödjer er genom hela processen från val av verktyg till implementation och 
+                kontinuerlig utveckling, med fokus på användarvänlighet och värdeskapande.
               </p>
               <ul class="space-y-2">
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Planering och genomförande av implementation</span>
+                  <span>Planering och genomförande av smidig implementation</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
-                  <span>Utbildning och användarstöd</span>
+                  <span>Skräddarsydd utbildning och användarsupport</span>
                 </li>
                 <li class="flex items-center gap-2 text-slate-300">
                   <ArrowRight className="w-4 h-4 text-emerald-500" />
                   <span>Löpande teknisk support och utveckling</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Datadriven optimering baserad på användarfeedback</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg border border-slate-700/50">
+          <div class="flex items-start gap-4">
+            <RefreshCcw className="w-8 h-8 text-emerald-500 mt-1" />
+            <div>
+              <h3 class="text-xl font-bold text-white mb-4">Modern webbteknologi</h3>
+              <p class="text-slate-300 mb-4">
+                Vi arbetar med de senaste webbteknologierna för att skapa snabba, säkra och 
+                framtidssäkrade lösningar för er verksamhet.
+              </p>
+              <ul class="space-y-2">
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Responsiv design för alla enheter</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Molnbaserade lösningar för flexibilitet och skalbarhet</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>Säker datahantering och GDPR-anpassning</span>
+                </li>
+                <li class="flex items-center gap-2 text-slate-300">
+                  <ArrowRight className="w-4 h-4 text-emerald-500" />
+                  <span>API-utveckling för sömlös integration mellan system</span>
                 </li>
               </ul>
             </div>
@@ -149,12 +196,67 @@ const description = "Vi hjälper er hitta eller utveckla de digitala verktyg som
       </div>
     </div>
 
+    {/* Use Cases Section */}
+    <div class="mb-16">
+      <h2 class="text-2xl font-semibold text-white mb-8">Användningsområden</h2>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <BookOpen className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Digitala lärplattformar</h3>
+          <p class="text-slate-300">
+            Kompletta kursmiljöer och lärplattformar anpassade efter era specifika behov och pedagogiska mål.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <Layers className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Administrativa verktyg</h3>
+          <p class="text-slate-300">
+            Effektiva verktyg för lärare och utbildare som förenklar administration och uppföljning.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <Search className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Pedagogiska portaler</h3>
+          <p class="text-slate-300">
+            Användarvänliga portaler för delning och hantering av pedagogiska resurser och material.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <Code2 className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Bedömningsverktyg</h3>
+          <p class="text-slate-300">
+            Digitala verktyg för bedömning, återkoppling och dokumentation av lärande.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <RefreshCcw className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Interaktiva lärmiljöer</h3>
+          <p class="text-slate-300">
+            Engagerande simuleringar och interaktiva miljöer som främjar aktivt lärande.
+          </p>
+        </div>
+
+        <div class="bg-slate-800/50 backdrop-blur-sm p-6 rounded-lg border border-slate-700/50">
+          <BookOpen className="h-8 w-8 text-emerald-500 mb-4" />
+          <h3 class="text-xl font-semibold text-white mb-3">Adaptiva övningar</h3>
+          <p class="text-slate-300">
+            Självstudiematerial och övningar som anpassar sig efter användarens nivå och progression.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    {/* Call to Action */}
     <div class="bg-slate-800/50 backdrop-blur-sm p-8 rounded-lg text-center border border-slate-700/50">
       <h2 class="text-2xl font-semibold text-white mb-4">
-        Redo att hitta rätt digital lösning?
+        Redo att utveckla er digitala närvaro?
       </h2>
       <p class="text-lg text-slate-300 mb-6">
-        Låt oss tillsammans utforska vilka möjligheter som passar bäst för just era behov.
+        Låt oss tillsammans utforska vilka webblösningar som kan transformera och förstärka er verksamhet.
       </p>
       <a 
         href="/#kontakt" 
