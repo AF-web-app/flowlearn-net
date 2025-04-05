@@ -18,26 +18,68 @@ const { title, description = "FlowLearn erbjuder innovativa webbapplikationer oc
     <meta name="description" content={description} />
   </head>
   <body class="bg-gradient-to-b from-slate-900 to-slate-800 text-white min-h-screen">
-    <header class="fixed w-full top-0 z-50 transition-colors duration-300">
+    <header class="fixed w-full top-0 z-50 transition-colors duration-300 bg-slate-900/80 backdrop-blur-sm">
       <nav class="container mx-auto px-4 py-4 flex justify-between items-center">
         <a href="/" class="flex items-center">
           <img src="/images/logo.png" alt="FlowLearn Logo" class="h-[3.0rem] w-auto" />
         </a>
-        <div class="flex gap-6">
+        
+        <!-- Desktop Navigation -->
+        <div class="hidden md:flex items-center gap-6">
           <a href="/" class="text-slate-300 hover:text-white transition-colors">Hem</a>
-          <li class="relative group">
-            <a href="#" class="text-slate-300 hover:text-white transition-colors">Tjänster</a>
-            <ul class="absolute left-0 hidden group-hover:block bg-slate-800 rounded-lg shadow-lg">
-              <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:text-white transition-colors">IKT-Pedagogik</a></li>
-              <li><a href="/tjanster/webbapplikationer" class="block px-4 py-2 text-slate-300 hover:text-white transition-colors">Webbapplikationer</a></li>
-              <li><a href="/tjanster/konsulttjanster" class="block px-4 py-2 text-slate-300 hover:text-white transition-colors">Konsulttjänster</a></li>
+          <div class="relative group">
+            <button class="text-slate-300 hover:text-white transition-colors flex items-center">
+              Tjänster 
+              <svg class="ml-1 h-4 w-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+              </svg>
+            </button>
+            <ul class="absolute left-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-1
+                       invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 ease-in-out
+                       transform translate-y-2 group-hover:translate-y-0">
+              <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
+              <li><a href="/tjanster/webbapplikationer" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbapplikationer</a></li>
+              <li><a href="/tjanster/konsulttjanster" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Konsulttjänster</a></li>
             </ul>
-          </li>
+          </div>
           <a href="/blogg" class="text-slate-300 hover:text-white transition-colors">Nyheter</a>
-          <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors">Om mig</a>
+          <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors">Om FlowLearn</a>
           <a href="/#kontakt" class="text-slate-300 hover:text-white transition-colors">Kontakt</a>
         </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="mobile-menu-button" class="md:hidden text-slate-300 hover:text-white focus:outline-none">
+          <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+          </svg>
+        </button>
       </nav>
+
+      <!-- Mobile Menu -->
+      <div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-slate-900 z-40 flex flex-col items-center justify-center">
+        <button id="close-menu-button" class="absolute top-4 right-4 text-slate-300 hover:text-white">
+          <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+          </svg>
+        </button>
+        <a href="/" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Hem</a>
+        <div class="relative group text-center">
+          <button id="mobile-services-toggle" class="py-3 text-xl text-slate-300 hover:text-white transition-colors flex items-center">
+            Tjänster 
+            <svg class="ml-1 h-5 w-5 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/>
+            </svg>
+          </button>
+          <ul id="mobile-services-menu" class="hidden bg-slate-800 rounded-lg shadow-lg py-1 mt-1">
+            <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
+            <li><a href="/tjanster/webbapplikationer" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbapplikationer</a></li>
+            <li><a href="/tjanster/konsulttjanster" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Konsulttjänster</a></li>
+          </ul>
+        </div>
+        <a href="/blogg" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Nyheter</a>
+        <a href="/om-mig" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Om FlowLearn</a>
+        <a href="/#kontakt" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Kontakt</a>
+      </div>
     </header>
 
     <main class="pt-20">
@@ -72,8 +114,7 @@ const { title, description = "FlowLearn erbjuder innovativa webbapplikationer oc
               <a href="#" class="text-slate-300 hover:text-white transition-colors">
                 <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="currentColor" viewBox="0 0 24 24">
                   <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-                </svg>
-              </a>
+              </svg>
             </div>
           </div>
         </div>
@@ -91,4 +132,44 @@ const { title, description = "FlowLearn erbjuder innovativa webbapplikationer oc
       </div>
     </footer>
   </body>
+
+  <script>
+    // Mobile Menu Toggle
+    const menuButton = document.getElementById('mobile-menu-button');
+    const closeButton = document.getElementById('close-menu-button');
+    const mobileMenu = document.getElementById('mobile-menu');
+    const mobileServicesToggle = document.getElementById('mobile-services-toggle');
+    const mobileServicesMenu = document.getElementById('mobile-services-menu');
+
+    menuButton?.addEventListener('click', () => {
+      mobileMenu?.classList.toggle('hidden');
+    });
+
+    closeButton?.addEventListener('click', () => {
+      mobileMenu?.classList.add('hidden');
+      mobileServicesMenu?.classList.add('hidden'); // Close submenu if open
+    });
+
+    mobileServicesToggle?.addEventListener('click', (e) => {
+      e.preventDefault();
+      mobileServicesMenu?.classList.toggle('hidden');
+    });
+
+    // Close menu when clicking outside
+    document.addEventListener('click', (event) => {
+      if (!mobileServicesToggle?.contains(event.target as Node) && !mobileServicesMenu?.contains(event.target as Node)) {
+        mobileServicesMenu?.classList.add('hidden');
+      }
+    });
+
+    // Header background on scroll
+    const header = document.querySelector('header');
+    window.addEventListener('scroll', () => {
+      if (window.scrollY > 10) {
+        header?.classList.add('bg-slate-900/80', 'backdrop-blur-sm');
+      } else {
+        header?.classList.remove('bg-slate-900/80', 'backdrop-blur-sm');
+      }
+    });
+  </script>
 </html>
