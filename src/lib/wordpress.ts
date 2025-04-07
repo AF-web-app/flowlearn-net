@@ -118,6 +118,49 @@ function getWordPressUrl(): string {
   return envUrl;
 }
 
+// Interface for a single term (category or tag) from WP API _embedded
+interface WPTerm {
+  id: number;
+  link: string;
+  name: string;
+  slug: string;
+  taxonomy: 'category' | 'post_tag' | string; // Be more specific if needed
+}
+
+// Interface for media details within WP API _embedded
+interface WPMediaDetails {
+  width: number;
+  height: number;
+  file: string;
+  sizes: { 
+    [key: string]: { // e.g., thumbnail, medium, large
+      file: string;
+      width: number;
+      height: number;
+      mime_type: string;
+      source_url: string;
+    }
+  };
+  image_meta: object; // Define further if needed
+}
+
+// Interface for the featured media object within WP API _embedded
+interface WPMedia {
+  id: number;
+  date: string;
+  slug: string;
+  type: string;
+  link: string;
+  title: { rendered: string };
+  author: number;
+  caption: { rendered: string };
+  alt_text: string;
+  media_type: string;
+  mime_type: string;
+  media_details?: WPMediaDetails; // Use the detailed interface
+  source_url: string;
+}
+
 // Add type for WordPress API response
 export interface WordPressPostResponse {
   id: number;
@@ -127,23 +170,12 @@ export interface WordPressPostResponse {
   excerpt: { rendered: string };
   slug: string;
   categories: number[];
+  featured_media?: number;
+  tags?: number[];
   status?: string;
   _embedded?: {
-    'wp:featuredmedia'?: Array<{
-      id: number;
-      source_url: string;
-      media_type: string;
-      mime_type: string;
-      media_details?: {
-        sizes: {
-          [key: string]: {
-            source_url: string;
-            width: number;
-            height: number;
-          }
-        }
-      }
-    }>
+    'wp:featuredmedia'?: WPMedia[];
+    'wp:term'?: WPTerm[][];
   }
 }
 
@@ -163,7 +195,11 @@ export interface Post {
   date: string;
   slug: string;
   featuredImage?: string;
-  categories: number[];
+  categories: { 
+    id: number; 
+    name: string; 
+    slug: string; 
+  }[];
   status?: string;
 }
 
@@ -173,7 +209,8 @@ interface WordPressCategory {
   slug: string;
 }
 
-async function getCategories(): Promise<WordPressCategory[]> {
+// Export this function so it can be imported elsewhere
+export async function getCategories(): Promise<WordPressCategory[]> {
   try {
     const wpUrl = getWordPressUrl();
     const response = await fetch(`${wpUrl}/wp-json/wp/v2/categories`, {
@@ -185,8 +222,8 @@ async function getCategories(): Promise<WordPressCategory[]> {
       throw new Error(`Failed to fetch categories: ${response.statusText}`);
     }
 
-    const categories = await response.json();
-    console.log('📑 Available Categories:', categories.map(c => ({ name: c.name, id: c.id })));
+    const categories: WordPressCategory[] = await response.json() as WordPressCategory[];
+    console.log('📑 Available Categories:', categories.map((c: WordPressCategory) => ({ name: c.name, id: c.id })));
     return categories;
   } catch (error) {
     console.error('Error fetching categories:', error);
@@ -194,174 +231,217 @@ async function getCategories(): Promise<WordPressCategory[]> {
   }
 }
 
-let flowlearnCategoryId: number | null = null;
-
-async function getFlowlearnCategoryId(): Promise<number | null> {
-  if (flowlearnCategoryId !== null) {
-    return flowlearnCategoryId;
-  }
-
-  const categories = await getCategories();
-  const flowlearnCategory = categories.find(c => 
-    c.slug === 'flowlearn' || c.name.toLowerCase() === 'flowlearn'
-  );
-
-  if (flowlearnCategory) {
-    flowlearnCategoryId = flowlearnCategory.id;
-    console.log('✅ Found Flowlearn category ID:', flowlearnCategoryId);
-    return flowlearnCategoryId;
-  }
-
-  console.warn('⚠️ Flowlearn category not found');
-  return null;
-}
-
 async function getMediaUrl(mediaId: number): Promise<string | undefined> {
   if (!mediaId) return undefined;
   
+  const wpUrl = getWordPressUrl();
+  const url = `${wpUrl}/wp-json/wp/v2/media/${mediaId}`;
+  
   try {
-    const wpUrl = getWordPressUrl();
-    const headers = getAuthHeaders();
-    const response = await fetch(`${wpUrl}/wp-json/wp/v2/media/${mediaId}`, {
-      headers,
+    const response = await fetch(url, {
+      headers: getAuthHeaders(),
       agent: httpsAgent
     });
-    
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error(`Failed to fetch media ${mediaId}:`, {
-        status: response.status,
-        statusText: response.statusText,
-        errorText
-      });
-      return undefined;
+      throw new Error(`Failed to fetch media ${mediaId}: ${response.statusText}`);
     }
-
-    const media = await response.json();
-    console.log(`[MEDIA_DEBUG] Media ${mediaId}:`, {
-      sourceUrl: media.source_url,
-      guid: media.guid?.rendered,
-      link: media.link
-    });
-
-    return media.source_url || media.guid?.rendered;
+    const media: WPMedia = await response.json() as WPMedia;
+    return media.media_details?.sizes?.large?.source_url || media.source_url;
   } catch (error) {
-    console.error(`Error fetching media ${mediaId}:`, error);
+    logDetailedError(`Error fetching media URL for ID ${mediaId}`, error);
     return undefined;
   }
 }
 
-export async function getPosts(page = 1, perPage = 10): Promise<Post[]> {
+/**
+ * Fetches posts from the WordPress REST API, handling pagination to retrieve all posts.
+ * @param categoryId Optional category ID to filter posts by.
+ * @returns A promise that resolves to an array of Post objects.
+ */
+// Updated getPosts function to handle pagination
+export async function getPosts(categoryId?: number): Promise<Post[]> {
+  const wpUrl = getWordPressUrl();
+  const headers = getAuthHeaders();
+  let allPosts: Post[] = [];
+  let page = 1;
+  const perPage = 100; // Max allowed by WP REST API
+  let totalPages = 1; // Initialize to 1, will be updated after the first request
+
+  console.log(`[WORDPRESS_API] Fetching posts${categoryId ? ` for category ${categoryId}` : ' (all published)'}.`);
+
   try {
-    const wpUrl = getWordPressUrl();
-    if (!wpUrl) {
-      throw new Error('WordPress URL is not configured');
-    }
+    do {
+      const params = new URLSearchParams({
+        _embed: 'true',
+        page: page.toString(),
+        per_page: perPage.toString(),
+        status: 'publish',
+      });
 
-    const categoryId = await getFlowlearnCategoryId();
-    
-    let url = `${wpUrl}/wp-json/wp/v2/posts?page=${page}&per_page=${perPage}&_embed`;
-    if (categoryId) {
-      url += `&categories=${categoryId}`;
-      console.log('🔍 Filtering posts by Flowlearn category:', categoryId);
-    } else {
-      console.log('⚠️ No category filter applied - showing all posts');
-    }
-
-    console.group('[WORDPRESS_REQUEST_DEBUG]');
-    console.log('🌐 Request URL:', url);
-
-    const headers = getAuthHeaders();
-    
-    // Lägg till extra debugging för CORS och headers
-    console.log('🔒 Request Headers:', {
-      Authorization: headers.Authorization ? 'Provided' : 'Missing',
-      'User-Agent': headers['User-Agent'],
-      'Accept': headers['Accept']
-    });
-
-    const response = await fetch(url, {
-      method: 'GET',
-      headers: {
-        ...headers,
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      agent: httpsAgent
-    });
-
-    console.log('🚦 Response Status:', {
-      status: response.status,
-      statusText: response.statusText
-    });
-    
-    if (!response.ok) {
-      const errorText = await response.text();
-      const errorDetails = {
-        status: response.status,
-        statusText: response.statusText,
-        errorText,
-        headers: Object.fromEntries(response.headers.entries())
-      };
-      
-      console.error('🚨 WordPress API Error:', errorDetails);
-      
-      // Specifik CORS-felsökning
-      if (response.status === 403) {
-        console.warn('⚠️ Potential CORS or Authentication Issue', {
-          currentOrigin: 'N/A', // window.location.origin is not available in Node.js
-          wpUrl,
-          configuredCORSDomains: 'Check WordPress CORS settings'
-        });
+      if (categoryId) {
+        params.set('categories', categoryId.toString());
       }
 
-      throw new Error(`WordPress API Error: ${response.status} - ${response.statusText}`);
-    }
+      const url = `${wpUrl}/wp-json/wp/v2/posts?${params.toString()}`;
+      console.log(`[WORDPRESS_API] Fetching page ${page}/${totalPages || '?'} from: ${wpUrl}/wp-json/wp/v2/posts...`);
+      console.log(`  Full URL: ${url}`);
+      console.log('[WORDPRESS_API] Using Headers:', Object.keys(headers));
+ 
+      // Re-enable auth headers
+      const response = await fetch(url, {
+        headers: headers, 
+      });
 
-    const posts: WordPressPostResponse[] = await response.json();
-    
-    console.log('📊 Fetched Posts:', {
-      totalPosts: posts.length,
-      firstPostTitle: posts[0]?.title?.rendered || 'No posts'
-    });
+      console.log(`[WORDPRESS_API] Response Status (Page ${page}): ${response.status} ${response.statusText}`);
 
-    // Hämta bilder för alla inlägg parallellt
-    const postsWithImages = await Promise.all(posts.map(async post => {
-      console.group(`[POST_DEBUG] ${post.slug}`);
-      console.log('Featured Media ID:', post.featured_media);
-      
-      let featuredImageUrl = post._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-      
-      if (!featuredImageUrl && post.featured_media) {
-        featuredImageUrl = await getMediaUrl(post.featured_media);
+      if (!response.ok) {
+        const errorBody = await response.text();
+        console.error(`[WORDPRESS_API_ERROR] Failed to fetch posts (Page ${page}). Status: ${response.status}`);
+        console.error(`[WORDPRESS_API_ERROR] Error Body: ${errorBody}`);
+        // Throw a more specific error including the body if possible
+        throw new Error(
+          `HTTP error! status: ${response.status}, Body: ${errorBody.substring(0, 200)}...` // Truncate long error bodies
+        );
       }
 
-      console.log('Featured Image URL:', featuredImageUrl);
-      console.groupEnd();
+      // Get total pages from the header (only needed on the first request)
+      // Explicitly type the response json
+      const postsData: WordPressPostResponse[] = await response.json() as WordPressPostResponse[];
+      if (page === 1) {
+        const totalPagesHeader = response.headers.get('X-WP-TotalPages');
+        totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 1;
+        console.log(`[WORDPRESS_API] Total pages found: ${totalPages}`);
+      }
 
-      return {
-        id: post.id,
-        title: post.title,
-        content: post.content,
-        excerpt: post.excerpt,
-        date: post.date,
-        slug: post.slug,
-        featuredImage: featuredImageUrl,
-        categories: post.categories,
-        status: post.status
-      };
-    }));
+      const processedPosts = postsData.map(mapWordPressPostToPost);
+      allPosts = allPosts.concat(processedPosts);
 
-    console.groupEnd();
-    return postsWithImages;
+      page++;
+    } while (page <= totalPages);
+
+    console.log(`[WORDPRESS_API] Successfully fetched ${allPosts.length} posts in total.`);
+    return allPosts;
 
   } catch (error) {
-    console.error('[WORDPRESS_FETCH_COMPREHENSIVE_ERROR]', error);
-    console.groupEnd();
-    throw error;
+    console.error('[WORDPRESS_API_ERROR] Error in getPosts function');
+    if (error instanceof Error) {
+        console.error('Error Name:', error.name);
+        console.error('Error Message:', error.message);
+    } else {
+        console.error('Unknown error object:', error);
+    }
+    // Re-throw a consistent error message
+    throw new Error(`Failed to get posts: ${error instanceof Error ? error.message : 'Unknown error'}`);
   }
 }
 
+function mapWordPressPostToPost(post: WordPressPostResponse): Post {
+  let featuredImage: string | undefined = undefined;
+  
+  if (post._embedded && post._embedded['wp:featuredmedia'] && post._embedded['wp:featuredmedia'][0]) {
+    const media: WPMedia = post._embedded['wp:featuredmedia'][0];
+    featuredImage = media.media_details?.sizes?.large?.source_url || 
+                    media.media_details?.sizes?.medium_large?.source_url || 
+                    media.source_url;
+  }
+
+  let categories: { id: number; name: string; slug: string; }[] = [];
+  if (post._embedded && post._embedded['wp:term']) {
+    const termLists: WPTerm[][] = post._embedded['wp:term'];
+    const categoryTerms = termLists.find((termList: WPTerm[]) => termList.some((term: WPTerm) => term.taxonomy === 'category'));
+
+    if (categoryTerms) {
+      categories = categoryTerms
+        .filter((term: WPTerm) => term.taxonomy === 'category') 
+        .map((term: WPTerm) => ({
+            id: term.id,
+            name: term.name,
+            slug: term.slug
+         }));
+    }
+  }
+
+  return {
+    id: post.id,
+    title: post.title,
+    content: post.content,
+    excerpt: post.excerpt,
+    date: post.date,
+    slug: post.slug,
+    status: post.status,
+    featuredImage: featuredImage,
+    categories: categories
+  };
+}
+
+/**
+ * Fetches a single post from the WordPress REST API by its slug.
+ * @param slug The slug of the post to fetch.
+ * @returns A promise that resolves to the Post object or null if not found.
+ */
+export async function getPostBySlug(slug: string): Promise<Post | null> {
+  const wpUrl = getWordPressUrl();
+  const headers = getAuthHeaders(); // Use authentication
+
+  console.log(`[WORDPRESS_API] Fetching single post by slug: ${slug}`);
+
+  try {
+    // The `slug` parameter queries for posts with the exact slug.
+    // `_embed` is still useful to get linked data like featured image and categories.
+    const params = new URLSearchParams({
+      _embed: 'true',
+      slug: slug,
+      status: 'publish', // Ensure we only get published posts
+    });
+
+    const url = `${wpUrl}/wp-json/wp/v2/posts?${params.toString()}`;
+    console.log(`  Full URL: ${url}`);
+
+    const response = await fetch(url, {
+      headers: headers,
+    });
+
+    console.log(`[WORDPRESS_API] Response Status (slug: ${slug}): ${response.status} ${response.statusText}`);
+
+    if (!response.ok) {
+      // If status is 404, the post wasn't found (or wasn't published with that slug)
+      if (response.status === 404) {
+        console.log(`[WORDPRESS_API] Post with slug '${slug}' not found.`);
+        return null; 
+      }
+      // Handle other errors
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, Body: ${errorBody.substring(0, 200)}...`);
+    }
+
+    const postsData: WordPressPostResponse[] = await response.json() as WordPressPostResponse[];
+
+    // The API returns an array even when querying by slug. It should contain 0 or 1 post.
+    if (postsData.length === 0) {
+      console.log(`[WORDPRESS_API] Post with slug '${slug}' found in response array, but array was empty.`);
+      return null;
+    }
+
+    // Map the first (and likely only) result
+    const post = mapWordPressPostToPost(postsData[0]);
+    console.log(`[WORDPRESS_API] Successfully fetched post: ${post.title.rendered}`);
+    return post;
+
+  } catch (error) {
+    console.error(`[WORDPRESS_API_ERROR] Error in getPostBySlug for slug: ${slug}`);
+     if (error instanceof Error) {
+        console.error('Error Name:', error.name);
+        console.error('Error Message:', error.message);
+    } else {
+        console.error('Unknown error object:', error);
+    }
+    // Return null or re-throw depending on desired behavior for component
+    // Returning null is often better for page components to handle gracefully
+    return null;
+  }
+}
+
+// Example usage or testing function
 async function main() {
   console.log('Starting WordPress API Test');
   try {

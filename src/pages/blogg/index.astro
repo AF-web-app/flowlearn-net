@@ -1,21 +1,35 @@
 ---
 import MainLayout from '../../layouts/MainLayout.astro';
-import { getPosts } from '../../lib/wordpress';
+import { getPosts, getCategories } from '../../lib/wordpress'; 
+
+interface Category {
+  id: number;
+  name: string;
+  slug: string;
+}
 
 interface Post {
+  id: number;
   title: { rendered: string };
   excerpt: { rendered: string };
   featuredImage?: string;
   slug: string;
   date: string;
+  categories: Category[]; 
 }
 
 let posts: Post[] = [];
+let categories: Category[] = []; 
 let error: string | null = null;
 
 try {
-  posts = await getPosts(1, 10);
-  console.log(`✅ Successfully fetched ${posts.length} posts`);
+  [posts, categories] = await Promise.all([
+    getPosts(), 
+    getCategories()
+  ]);
+  console.log(`[Astro /blogg] Fetched ${posts.length} posts and ${categories.length} categories.`);
+  console.log('[Astro /blogg] Fetched Posts:', JSON.stringify(posts, null, 2));
+  console.log(`✅ Successfully fetched ${posts.length} posts and ${categories.length} categories`);
 } catch (e: unknown) {
   console.error('❌ Error fetching posts:', e);
   error = e instanceof Error ? e.message : 'An unknown error occurred';
@@ -35,16 +49,35 @@ function truncateText(text: string, maxLength: number = 150) {
       <h1 class="text-3xl md:text-4xl font-bold mb-4">Nyeheter och blogg</h1>
       <p class="text-xl text-slate-300">Senaste insikterna inom AI och utbildning</p>
     </div>
-    
+
     {error && (
       <div class="bg-red-900/50 border border-red-500 text-red-200 px-4 py-3 rounded mb-4">
         <p>Ett fel uppstod: {error}</p>
       </div>
     )}
 
-    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="flex flex-col md:flex-row gap-4 mb-8 justify-end">
+      <div class="flex-grow md:flex-grow-0">
+        <label for="category-filter" class="block text-sm font-medium text-slate-300 mb-1">Filtrera Kategori</label>
+        <select id="category-filter" name="category-filter" class="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 text-white focus:ring-emerald-500 focus:border-emerald-500">
+          <option value="all">Alla Kategorier</option>
+          {categories.map(category => (
+            <option value={category.slug}>{category.name}</option>
+          ))}
+        </select>
+      </div>
+      <div class="flex-grow md:flex-grow-0">
+        <label for="sort-order" class="block text-sm font-medium text-slate-300 mb-1">Sortera</label>
+        <select id="sort-order" name="sort-order" class="w-full bg-slate-700 border border-slate-600 rounded-md py-2 px-3 text-white focus:ring-emerald-500 focus:border-emerald-500">
+          <option value="newest">Nyaste Först</option>
+          <option value="oldest">Äldsta Först</option>
+        </select>
+      </div>
+    </div>
+
+    <div id="post-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
       {posts.map(post => (
-        <article class="bg-slate-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 border border-slate-700">
+        <article class="blog-post bg-slate-800 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-xl hover:shadow-emerald-500/10 border border-slate-700" data-date={post.date} data-categories={JSON.stringify(post.categories.map(c => c.slug))}>
           {post.featuredImage && (
             <div class="aspect-video overflow-hidden">
               <img 
@@ -56,6 +89,15 @@ function truncateText(text: string, maxLength: number = 150) {
             </div>
           )}
           <div class="p-6">
+            {post.categories && post.categories.length > 0 && (
+              <div class="mt-4 flex items-center flex-wrap">
+                {post.categories.map(category => (
+                  <span class="bg-gradient-to-r from-indigo-500 to-purple-500 text-white text-xs font-semibold mr-2 mb-2 px-2.5 py-0.5 rounded">
+                    {category.name}
+                  </span>
+                ))}
+              </div>
+            )}
             <h2 
               class="text-xl font-semibold text-white mb-3" 
               set:html={post.title.rendered}
@@ -92,11 +134,13 @@ function truncateText(text: string, maxLength: number = 150) {
         <p class="text-xl text-slate-300">Inga blogginlägg hittades</p>
       </div>
     )}
+    <div id="no-results-message" class="hidden text-center py-12 bg-slate-800 rounded-lg border border-slate-700">
+      <p class="text-xl text-slate-300">Inga blogginlägg matchade dina filter.</p>
+    </div>
   </div>
 </MainLayout>
 
 <script>
-  // Add background to header when scrolling
   const header = document.querySelector('header');
   const handleScroll = () => {
     if (window.scrollY > 50) {
@@ -107,5 +151,64 @@ function truncateText(text: string, maxLength: number = 150) {
   };
 
   window.addEventListener('scroll', handleScroll);
-  handleScroll(); // Initial check
+  handleScroll();
+
+  const postGrid = document.getElementById('post-grid') as HTMLElement;
+  const categoryFilter = document.getElementById('category-filter') as HTMLSelectElement;
+  const sortOrder = document.getElementById('sort-order') as HTMLSelectElement;
+  const noResultsMessage = document.getElementById('no-results-message') as HTMLElement;
+
+  if (!postGrid || !categoryFilter || !sortOrder || !noResultsMessage) {
+    console.error('Filter/Sort Error: One or more required DOM elements not found.');
+  } else {
+    const allPostElements = Array.from(postGrid.querySelectorAll('article.blog-post')) as HTMLElement[];
+
+    function updatePosts() {
+      const selectedCategory = categoryFilter.value;
+      const selectedSort = sortOrder.value;
+
+      console.log('Updating posts:', { selectedCategory, selectedSort });
+
+      let filteredPosts = allPostElements;
+
+      if (selectedCategory !== 'all') {
+        filteredPosts = filteredPosts.filter(postElement => {
+          const categoriesData = postElement.dataset.categories;
+          if (!categoriesData) return false; 
+          try {
+            const postCategories: string[] = JSON.parse(categoriesData);
+            return postCategories.includes(selectedCategory);
+          } catch (e) {
+            console.error('Error parsing post categories:', categoriesData, e);
+            return false;
+          }
+        });
+      }
+
+      filteredPosts.sort((a, b) => {
+        const dateAStr = a.dataset.date;
+        const dateBStr = b.dataset.date;
+        if (!dateAStr || !dateBStr) return 0; 
+
+        const dateA = new Date(dateAStr).getTime();
+        const dateB = new Date(dateBStr).getTime();
+        if (isNaN(dateA) || isNaN(dateB)) return 0;
+
+        return selectedSort === 'newest' ? dateB - dateA : dateA - dateB;
+      });
+
+      postGrid.innerHTML = ''; 
+      if (filteredPosts.length > 0) {
+        filteredPosts.forEach(postElement => postGrid.appendChild(postElement));
+        noResultsMessage.classList.add('hidden');
+      } else {
+        noResultsMessage.classList.remove('hidden');
+      }
+    }
+
+    categoryFilter.addEventListener('change', updatePosts);
+    sortOrder.addEventListener('change', updatePosts);
+
+    noResultsMessage.classList.add('hidden');
+  } 
 </script>
