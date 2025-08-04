@@ -50,7 +50,9 @@ export default defineConfig({
       // WordPress-relaterade variabler - tillgängliga i alla miljöer
       'process.env.WORDPRESS_URL': JSON.stringify(process.env.WORDPRESS_URL),
       'process.env.WORDPRESS_USERNAME': JSON.stringify(process.env.WORDPRESS_USERNAME),
-      'process.env.WP_USERNAME': JSON.stringify(process.env.WP_USERNAME)
+      'process.env.WP_USERNAME': JSON.stringify(process.env.WP_USERNAME),
+      'process.env.WORDPRESS_APP_PASSWORD': JSON.stringify(process.env.WORDPRESS_APP_PASSWORD),
+      'process.env.WP_APP_PASSWORD': JSON.stringify(process.env.WP_APP_PASSWORD)
     }
   }
 });
