@@ -92,7 +92,7 @@ const showFeaturedImage = post && post.featuredImage && !hasImageInContent(post.
 const processedContent = post ? processContent(post.content.rendered, post.featuredImage) : '';
 ---
 
-<MainLayout title={post ? `${post.title.rendered} | FlowLearn` : 'Inlägg hittades inte | FlowLearn'}>
+<MainLayout title={post ? `${post.title.rendered} | Flowlearn` : 'Inlägg hittades inte | Flowlearn'}>
   <article class="mx-auto max-w-2xl lg:max-w-5xl px-6 py-16">
     {error && (
       <div class="text-center py-16">

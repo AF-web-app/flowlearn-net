@@ -1,0 +1,117 @@
+---
+import MainLayout from '../layouts/MainLayout.astro';
+import ExtendedContactForm from '../components/ExtendedContactForm';
+import { Mail, Phone, MapPin, Clock } from 'lucide-react';
+
+const title = "Kontakta mig | Flowlearn";
+const description = "Har du frågor eller vill diskutera ett projekt? Kontakta Flowlearn för en kostnadsfri konsultation om IKT-pedagogik, IT-support, webbdesign eller digitala lösningar.";
+---
+
+<MainLayout title={title} description={description}>
+  <!-- Hero Section -->
+  <section class="relative w-full h-[500px] -mt-20">
+    <img 
+      src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+      alt="Kontakta Flowlearn" 
+      class="absolute inset-0 w-full h-full object-cover"
+    />
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/90 via-slate-900/70 to-slate-900"></div>
+    
+    <div class="relative h-full flex items-center">
+      <div class="container mx-auto px-4 pt-20">
+        <div class="max-w-3xl">
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-6">
+            Kontakta mig
+          </h1>
+          <p class="text-xl text-slate-200 mb-8">
+            Har du frågor eller vill diskutera ett projekt? Jag hjälper dig gärna med allt från IT-support och digitala lösningar till webbdesign och IKT-pedagogik. Fyll i formuläret nedan eller kontakta mig direkt.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section class="container mx-auto px-4 py-16">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-12">
+      <!-- Contact Info -->
+      <div class="lg:col-span-1">
+        <h2 class="text-2xl font-semibold text-white mb-8">Kontaktuppgifter</h2>
+        
+        <div class="space-y-8">
+          <div class="flex items-start gap-4">
+            <div class="bg-emerald-900/30 p-3 rounded-lg">
+              <Mail className="w-6 h-6 text-emerald-500" />
+            </div>
+            <div>
+              <h3 class="font-medium text-white">E-post</h3>
+              <p class="text-slate-300 mt-1">it@flowlearn.se</p>
+              <a href="mailto:it@flowlearn.se" class="text-emerald-500 hover:underline text-sm mt-1 inline-block">Skicka e-post</a>
+            </div>
+          </div>
+          
+          <div class="flex items-start gap-4">
+            <div class="bg-emerald-900/30 p-3 rounded-lg">
+              <Phone className="w-6 h-6 text-emerald-500" />
+            </div>
+            <div>
+              <h3 class="font-medium text-white">Telefon</h3>
+              <p class="text-slate-300 mt-1">072-228 00 13</p>
+              <a href="tel:+46722280013" class="text-emerald-500 hover:underline text-sm mt-1 inline-block">Ring</a>
+            </div>
+          </div>
+          
+
+        </div>
+        
+        <div class="mt-12 p-6 bg-slate-800/50 rounded-lg border border-slate-700">
+          <h3 class="font-semibold text-white mb-3">Kostnadsfri konsultation</h3>
+          <p class="text-slate-300 text-sm">
+            Jag erbjuder en kostnadsfri första konsultation för att diskutera dina behov och hur jag kan hjälpa dig. Kontakta mig för att boka tid.
+          </p>
+        </div>
+      </div>
+      
+      <!-- Contact Form -->
+      <div class="lg:col-span-2">
+        <h2 class="text-2xl font-semibold text-white mb-8">Skicka ett meddelande</h2>
+        <ExtendedContactForm client:load />
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="container mx-auto px-4 py-16 border-t border-slate-800">
+    <h2 class="text-3xl font-bold text-white mb-12 text-center">Vanliga frågor</h2>
+    
+    <div class="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+        <h3 class="text-xl font-semibold text-white mb-3">Hur snabbt får jag svar?</h3>
+        <p class="text-slate-300">
+          Jag strävar efter att svara på alla förfrågningar inom 24 timmar under vardagar. För brådskande ärenden, vänligen ring mig direkt.
+        </p>
+      </div>
+      
+      <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+        <h3 class="text-xl font-semibold text-white mb-3">Vilka områden arbetar du inom?</h3>
+        <p class="text-slate-300">
+          Jag arbetar främst med IKT-pedagogik, IT-support, webbdesign och digitala lösningar för mindre företag och organisationer.
+        </p>
+      </div>
+      
+      <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+        <h3 class="text-xl font-semibold text-white mb-3">Hur fungerar betalningen?</h3>
+        <p class="text-slate-300">
+          Efter en initial konsultation presenterar jag en offert baserad på dina behov. Betalning sker vanligtvis via faktura med 30 dagars betalningsvillkor.
+        </p>
+      </div>
+      
+      <div class="bg-slate-800/50 p-6 rounded-lg border border-slate-700">
+        <h3 class="text-xl font-semibold text-white mb-3">Kan du hjälpa till på distans?</h3>
+        <p class="text-slate-300">
+          Ja, jag erbjuder både distanssupport och möten online. För kunder i Mälardalen/Stockholmsområdet erbjuder jag även möten på plats.
+        </p>
+      </div>
+    </div>
+  </section>
+</MainLayout>

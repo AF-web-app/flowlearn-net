@@ -5,6 +5,9 @@ import { env } from 'process';
 import https from 'https';
 import fetch, { FetchError, type RequestInit } from 'node-fetch';
 
+// Set to false to disable debug output
+const DEBUG = false;
+
 // Ladda miljöspecifik konfiguration
 const loadEnv = () => {
   const mode = process.env.NODE_ENV || 'development';
@@ -20,12 +23,12 @@ const loadEnv = () => {
     try {
       const result = dotenv.config({ path: envPath });
       if (result.error) {
-        console.warn(`[ENV_DEBUG] Could not load ${file}:`, result.error);
+        if (DEBUG) console.warn(`[ENV_DEBUG] Could not load ${file}:`, result.error);
       } else {
-        console.log(`[ENV_DEBUG] Loaded environment from ${file}`);
+        if (DEBUG) console.log(`[ENV_DEBUG] Loaded environment from ${file}`);
       }
     } catch (error) {
-      console.warn(`[ENV_DEBUG] Error loading ${file}:`, error);
+      if (DEBUG) console.warn(`[ENV_DEBUG] Error loading ${file}:`, error);
     }
   });
 };
@@ -52,12 +55,12 @@ function logDetailedError(context: string, error: any) {
 
 // Enhanced authentication header generation
 function getAuthHeaders(): Record<string, string> {
-  console.group('[WORDPRESS_AUTH_DEBUG]');
+  if (DEBUG) console.group('[WORDPRESS_AUTH_DEBUG]');
   
   const username = process.env.WORDPRESS_USERNAME || process.env.WP_USERNAME;
   const appPassword = process.env.WORDPRESS_APP_PASSWORD || process.env.WP_APP_PASSWORD;
 
-  console.log('🔐 Authentication Details:', {
+  if (DEBUG) console.log('🔐 Authentication Details:', {
     usedUsername: username,
     usernameLength: username?.length,
     passwordProvided: !!appPassword,
@@ -66,7 +69,7 @@ function getAuthHeaders(): Record<string, string> {
 
   if (!username || !appPassword) {
     console.error('❌ Missing WordPress Authentication Credentials');
-    console.groupEnd();
+    if (DEBUG) console.groupEnd();
     throw new Error('WordPress credentials are missing');
   }
 
@@ -74,21 +77,23 @@ function getAuthHeaders(): Record<string, string> {
     const credentials = Buffer.from(`${username}:${appPassword}`).toString('base64');
     const headers = {
       'Authorization': `Basic ${credentials}`,
-      'User-Agent': 'FlowLearn WordPress Client/1.0',
+      'User-Agent': 'Flowlearn WordPress Client/1.0',
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     };
 
-    console.log('✅ Authentication Headers Generated', {
-      authHeaderGenerated: true,
-      headerLength: headers.Authorization.length
-    });
-    console.groupEnd();
+    if (DEBUG) {
+      console.log('✅ Authentication Headers Generated', {
+        authHeaderGenerated: true,
+        headerLength: headers.Authorization.length
+      });
+      console.groupEnd();
+    }
 
     return headers;
   } catch (error) {
     console.error('[WORDPRESS_AUTH_GENERATION_ERROR]', error);
-    console.groupEnd();
+    if (DEBUG) console.groupEnd();
     throw error;
   }
 }
@@ -96,25 +101,25 @@ function getAuthHeaders(): Record<string, string> {
 // Helper function to get WordPress URL from various sources
 function getWordPressUrl(): string {
   const envUrl = process.env.WORDPRESS_URL;
-  const mode = import.meta.env.MODE || 'development';
-  
-  console.group('[WORDPRESS_URL_DEBUG]');
-  console.log('Environment Details:', {
-    envUrl,
-    currentMode: mode,
-    productionMode: import.meta.env.PROD,
-    developmentMode: import.meta.env.DEV,
-    nodeEnv: process.env.NODE_ENV
-  });
-
   if (!envUrl) {
     console.error('❌ No WordPress URL configured');
-    console.groupEnd();
     throw new Error('WordPress URL is not configured');
   }
 
-  console.log('✅ Using WordPress URL:', envUrl);
-  console.groupEnd();
+  const mode = import.meta.env.MODE || 'development';
+  
+  if (DEBUG) {
+    console.group('[WORDPRESS_URL_DEBUG]');
+    console.log('Environment Details:', {
+      envUrl,
+      currentMode: mode,
+      productionMode: import.meta.env.PROD,
+      developmentMode: import.meta.env.DEV,
+      nodeEnv: process.env.NODE_ENV
+    });
+    console.log('✅ Using WordPress URL:', envUrl);
+    console.groupEnd();
+  }
   return envUrl;
 }
 
@@ -267,7 +272,7 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
   const perPage = 100; // Max allowed by WP REST API
   let totalPages = 1; // Initialize to 1, will be updated after the first request
 
-  console.log(`[WORDPRESS_API] Fetching posts${categoryId ? ` for category ${categoryId}` : ' (all published)'}.`);
+  if (DEBUG) console.log(`[WORDPRESS_API] Fetching posts${categoryId ? ` for category ${categoryId}` : ' (all published)'}.`);
 
   try {
     do {
@@ -283,16 +288,16 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
       }
 
       const url = `${wpUrl}/wp-json/wp/v2/posts?${params.toString()}`;
-      console.log(`[WORDPRESS_API] Fetching page ${page}/${totalPages || '?'} from: ${wpUrl}/wp-json/wp/v2/posts...`);
-      console.log(`  Full URL: ${url}`);
-      console.log('[WORDPRESS_API] Using Headers:', Object.keys(headers));
+      if (DEBUG) console.log(`[WORDPRESS_API] Fetching page ${page}/${totalPages || '?'} from: ${wpUrl}/wp-json/wp/v2/posts...`);
+      if (DEBUG) console.log(`  Full URL: ${url}`);
+      if (DEBUG) console.log('[WORDPRESS_API] Using Headers:', Object.keys(headers));
  
       // Re-enable auth headers
       const response = await fetch(url, {
         headers: headers, 
       });
 
-      console.log(`[WORDPRESS_API] Response Status (Page ${page}): ${response.status} ${response.statusText}`);
+      if (DEBUG) console.log(`[WORDPRESS_API] Response Status (Page ${page}): ${response.status} ${response.statusText}`);
 
       if (!response.ok) {
         const errorBody = await response.text();
@@ -310,7 +315,7 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
       if (page === 1) {
         const totalPagesHeader = response.headers.get('X-WP-TotalPages');
         totalPages = totalPagesHeader ? parseInt(totalPagesHeader, 10) : 1;
-        console.log(`[WORDPRESS_API] Total pages found: ${totalPages}`);
+        if (DEBUG) console.log(`[WORDPRESS_API] Total pages found: ${totalPages}`);
       }
 
       const processedPosts = postsData.map(mapWordPressPostToPost);
@@ -319,7 +324,7 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
       page++;
     } while (page <= totalPages);
 
-    console.log(`[WORDPRESS_API] Successfully fetched ${allPosts.length} posts in total.`);
+    if (DEBUG) console.log(`[WORDPRESS_API] Successfully fetched ${allPosts.length} posts in total.`);
     return allPosts;
 
   } catch (error) {
@@ -383,7 +388,7 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
   const wpUrl = getWordPressUrl();
   const headers = getAuthHeaders(); // Use authentication
 
-  console.log(`[WORDPRESS_API] Fetching single post by slug: ${slug}`);
+  if (DEBUG) console.log(`[WORDPRESS_API] Fetching single post by slug: ${slug}`);
 
   try {
     // The `slug` parameter queries for posts with the exact slug.
@@ -401,12 +406,12 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
       headers: headers,
     });
 
-    console.log(`[WORDPRESS_API] Response Status (slug: ${slug}): ${response.status} ${response.statusText}`);
+    if (DEBUG) console.log(`[WORDPRESS_API] Response Status (slug: ${slug}): ${response.status} ${response.statusText}`);
 
     if (!response.ok) {
       // If status is 404, the post wasn't found (or wasn't published with that slug)
       if (response.status === 404) {
-        console.log(`[WORDPRESS_API] Post with slug '${slug}' not found.`);
+        if (DEBUG) console.log(`[WORDPRESS_API] Post with slug '${slug}' not found.`);
         return null; 
       }
       // Handle other errors
@@ -418,13 +423,13 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
     // The API returns an array even when querying by slug. It should contain 0 or 1 post.
     if (postsData.length === 0) {
-      console.log(`[WORDPRESS_API] Post with slug '${slug}' found in response array, but array was empty.`);
+      if (DEBUG) console.log(`[WORDPRESS_API] Post with slug '${slug}' found in response array, but array was empty.`);
       return null;
     }
 
     // Map the first (and likely only) result
     const post = mapWordPressPostToPost(postsData[0]);
-    console.log(`[WORDPRESS_API] Successfully fetched post: ${post.title.rendered}`);
+    if (DEBUG) console.log(`[WORDPRESS_API] Successfully fetched post: ${post.title.rendered}`);
     return post;
 
   } catch (error) {
@@ -443,17 +448,20 @@ export async function getPostBySlug(slug: string): Promise<Post | null> {
 
 // Example usage or testing function
 async function main() {
-  console.log('Starting WordPress API Test');
+  if (DEBUG) console.log('Starting WordPress API Test');
   try {
     const posts = await getPosts();
-    console.log('Retrieved Posts:', posts.length);
-    posts.forEach((post, index) => {
-      console.log(`Post ${index + 1}:`, {
-        id: post.id,
-        title: post.title.rendered,
-        slug: post.slug
-      });
-    });
+    if (DEBUG) {
+      console.log('Retrieved Posts:', posts.length);
+      posts.forEach((post, index) => {
+        console.log(`Post ${index + 1}:`, {
+          id: post.id,
+          title: post.title.rendered,
+          slug: post.slug
+        });
+      }
+    );
+  }
   } catch (error) {
     console.error('Error retrieving posts:', error);
   }

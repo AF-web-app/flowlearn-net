@@ -55,8 +55,8 @@ export default function ContactForm() {
 
     const submissionData = new FormData();
     submissionData.set('access_key', accessKey);
-    submissionData.set('subject', 'Ny kontaktförfrågan från FlowLearn');
-    submissionData.set('from_name', 'FlowLearn Kontaktformulär');
+    submissionData.set('subject', 'Ny kontaktförfrågan från Flowlearn');
+    submissionData.set('from_name', 'Flowlearn Kontaktformulär');
     submissionData.set('name', formData.name);
     submissionData.set('email', formData.email);
     submissionData.set('message', formData.message);
@@ -134,8 +134,8 @@ export default function ContactForm() {
       method="POST" 
       className="space-y-4"
     >
-      <input type="hidden" name="subject" value="Ny kontaktförfrågan från FlowLearn" />
-      <input type="hidden" name="from_name" value="FlowLearn Kontaktformulär" />
+      <input type="hidden" name="subject" value="Ny kontaktförfrågan från Flowlearn" />
+      <input type="hidden" name="from_name" value="Flowlearn Kontaktformulär" />
       <input type="hidden" name="redirect" value="https://flowlearn.se/tack" />
 
       <div className="honeypot">

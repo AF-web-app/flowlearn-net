@@ -2,8 +2,8 @@
 import MainLayout from '../layouts/MainLayout.astro';
 import ContactForm from '../components/ContactForm';
 
-const title = "FlowLearn | Digitala lösningar som sätter människan i fokus";
-const description = "FlowLearn erbjuder IKT-pedagogik, digitala lösningar och IT-support för att förenkla och förbättra lärande och arbete i en digital värld.";
+const title = "Flowlearn | Digitala lösningar som sätter människan i fokus";
+const description = "Flowlearn erbjuder IKT-pedagogik, digitala lösningar och IT-support för att förenkla och förbättra lärande och arbete i en digital värld.";
 ---
 
 <MainLayout title={title} description={description}>
@@ -22,7 +22,7 @@ const description = "FlowLearn erbjuder IKT-pedagogik, digitala lösningar och I
             Digitala lösningar som sätter människan i fokus
           </h1>
           <p class="text-xl text-slate-200 mb-8">
-            På FlowLearn tror vi att teknik ska vara ett kraftfullt verktyg som stödjer och förenklar. Med vår expertis inom IKT-pedagogik och digitala lösningar hjälper vi dig att navigera den digitala världen – från effektiva lärandemiljöer till smidig IT-support. Vi ser till att tekniken jobbar för dig, med tydliga resultat.
+            På Flowlearn tror vi att teknik ska vara ett kraftfullt verktyg som stödjer och förenklar. Med vår expertis inom IKT-pedagogik och digitala lösningar hjälper vi dig att navigera den digitala världen – från effektiva lärandemiljöer till smidig IT-support. Vi ser till att tekniken jobbar för dig, med tydliga resultat.
           </p>
           <ul class="space-y-3 mb-8">
             <li class="flex items-center gap-3 text-slate-200">
@@ -44,7 +44,7 @@ const description = "FlowLearn erbjuder IKT-pedagogik, digitala lösningar och I
               Smidig IT-support för en enklare digital vardag
             </li>
           </ul>
-          <a href="#kontakt" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-3 rounded-lg transition-colors">
+          <a href="/kontakt" class="inline-block bg-emerald-700 hover:bg-emerald-800 text-white px-8 py-3 rounded-lg transition-colors">
             Kontakta oss idag →
           </a>
         </div>
@@ -101,7 +101,7 @@ const description = "FlowLearn erbjuder IKT-pedagogik, digitala lösningar och I
   {/* About Section */}
   <section class="container mx-auto px-4 py-20 bg-slate-800">
     <div class="max-w-4xl mx-auto">
-      <h2 class="text-3xl font-bold mb-8 text-center">Om FlowLearn: Din Partner för Digital Utveckling</h2>
+      <h2 class="text-3xl font-bold mb-8 text-center">Om Flowlearn: Din Partner för Digital Utveckling</h2>
       <p class="text-slate-300 text-lg mb-12 text-center">
         Vi kombinerar pedagogisk expertis med digital innovation för att skapa lösningar som gör det enkelt för skolor, utbildare och företag att lyckas i den digitala tidsåldern. Vårt unika helhetsperspektiv garanterar att tekniken alltid är relevant och stödjande.
       </p>
@@ -128,6 +128,9 @@ const description = "FlowLearn erbjuder IKT-pedagogik, digitala lösningar och I
     <div class="max-w-2xl mx-auto">
       <h2 class="text-3xl font-bold mb-8 text-center">Redo för en Enklare Digital Väg?</h2>
       <p class="text-slate-300 text-lg mb-8 text-center">Vill du veta mer om hur vi kan hjälpa dig med digitalt lärande eller IT-support? Vi erbjuder en kostnadsfri konsultation för att förstå dina behov.</p>
+      <div class="flex flex-col items-center mb-8">
+        <a href="/kontakt" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-lg transition-colors text-lg font-medium">Gå till kontaktsidan</a>
+      </div>
       <ContactForm client:visible />
     </div>
   </section>

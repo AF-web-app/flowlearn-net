@@ -82,7 +82,7 @@ ssh -i "$SSH_KEY" "$REMOTE_HOST" "
     # Update systemd service
     cat > /etc/systemd/system/flowlearn.service << 'EOL'
 [Unit]
-Description=FlowLearn Astro Server
+Description=Flowlearn Astro Server
 After=network.target
 
 [Service]
