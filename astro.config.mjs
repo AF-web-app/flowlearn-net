@@ -7,6 +7,9 @@ import sitemap from '@astrojs/sitemap';
 import node from '@astrojs/node';
 import 'dotenv/config';
 
+// Importera säkerhetskonfigurationen från vår centraliserade config
+import { securityConfig } from './src/lib/config.js';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://flowlearn.se',
@@ -37,7 +40,19 @@ export default defineConfig({
       noExternal: ['react-icons']
     },
     define: {
-      'process.env': process.env
+      // Endast exponera specifika miljövariabler istället för hela process.env
+      // Använder vår centraliserade säkerhetskonfiguration
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
+      
+      // Publika variabler som är säkra att exponera till klienten
+      'process.env.PUBLIC_WEB3FORMS_ACCESS_KEY': JSON.stringify(process.env.PUBLIC_WEB3FORMS_ACCESS_KEY),
+      
+      // WordPress-relaterade variabler - endast tillgängliga på servern
+      ...(process.env.NODE_ENV === 'development' ? {
+        'process.env.WORDPRESS_URL': JSON.stringify(process.env.WORDPRESS_URL),
+        'process.env.WORDPRESS_USERNAME': JSON.stringify(process.env.WORDPRESS_USERNAME),
+        'process.env.WP_USERNAME': JSON.stringify(process.env.WP_USERNAME)
+      } : {})
     }
   }
 });

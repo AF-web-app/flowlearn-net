@@ -1,71 +1,40 @@
 import 'dotenv/config';
 import * as dotenv from 'dotenv';
-import path from 'path';
-import { env } from 'process';
 import https from 'https';
-import fetch, { FetchError, type RequestInit } from 'node-fetch';
+import fetch, { FetchError } from 'node-fetch';
+import { marked } from 'marked';
+import { DEBUG, getWordPressUrl as getConfigWordPressUrl, logDetailedError, getEnv } from './config';
 
-// Set to false to disable debug output
-const DEBUG = false;
+// Environment is loaded automatically by config.ts
 
-// Ladda miljöspecifik konfiguration
-const loadEnv = () => {
-  const mode = process.env.NODE_ENV || 'development';
-  const envFiles = [
-    `.env.${mode}.local`,
-    `.env.${mode}`,
-    `.env.local`,
-    '.env'
-  ];
-
-  envFiles.forEach(file => {
-    const envPath = path.resolve(process.cwd(), file);
-    try {
-      const result = dotenv.config({ path: envPath });
-      if (result.error) {
-        if (DEBUG) console.warn(`[ENV_DEBUG] Could not load ${file}:`, result.error);
-      } else {
-        if (DEBUG) console.log(`[ENV_DEBUG] Loaded environment from ${file}`);
-      }
-    } catch (error) {
-      if (DEBUG) console.warn(`[ENV_DEBUG] Error loading ${file}:`, error);
-    }
-  });
-};
-
-loadEnv();
-
-// Robust HTTPS agent to handle various SSL scenarios
-const httpsAgent = new https.Agent({  
-  rejectUnauthorized: false  // Be cautious with this in production
+// Robust HTTPS agent with proper security settings based on environment
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: getEnv().NODE_ENV === 'production', // Secure in production, allows self-signed in development
+  // Add additional security options as needed
+  minVersion: 'TLSv1.2' // Ensure minimum TLS version for security
 });
 
-// Comprehensive error logging function
-function logDetailedError(context: string, error: any) {
-  console.error(`[WORDPRESS_API_ERROR] ${context}`);
-  console.error('Error Name:', error.name);
-  console.error('Error Message:', error.message);
-  
-  // Check if it's a fetch error with additional details
-  if (error instanceof FetchError) {
-    console.error('Fetch Error Code:', error.code);
-    console.error('Fetch Error Type:', error.type);
-  }
-}
+// Using centralized error handling from config.ts
 
 // Enhanced authentication header generation
+/**
+ * Genererar autentiseringsheaders för WordPress API
+ * @returns Record<string, string> Headers för API-anrop
+ */
 function getAuthHeaders(): Record<string, string> {
   if (DEBUG) console.group('[WORDPRESS_AUTH_DEBUG]');
-  
-  const username = process.env.WORDPRESS_USERNAME || process.env.WP_USERNAME;
-  const appPassword = process.env.WORDPRESS_APP_PASSWORD || process.env.WP_APP_PASSWORD;
+  const env = getEnv();
+  const username = env.WORDPRESS_USERNAME || env.WP_USERNAME;
+  const appPassword = env.WORDPRESS_APP_PASSWORD || env.WP_APP_PASSWORD;
 
-  if (DEBUG) console.log('🔐 Authentication Details:', {
-    usedUsername: username,
-    usernameLength: username?.length,
-    passwordProvided: !!appPassword,
-    passwordLength: appPassword ? appPassword.length : 0
-  });
+  if (DEBUG) {
+    console.log('🔐 Authentication Details:', {
+      usedUsername: username,
+      usernameLength: username?.length,
+      passwordProvided: !!appPassword,
+      passwordLength: appPassword ? appPassword.length : 0
+    });
+  }
 
   if (!username || !appPassword) {
     console.error('❌ Missing WordPress Authentication Credentials');
@@ -100,7 +69,7 @@ function getAuthHeaders(): Record<string, string> {
 
 // Helper function to get WordPress URL from various sources
 function getWordPressUrl(): string {
-  const envUrl = process.env.WORDPRESS_URL;
+  const envUrl = getConfigWordPressUrl();
   if (!envUrl) {
     console.error('❌ No WordPress URL configured');
     throw new Error('WordPress URL is not configured');
@@ -205,7 +174,22 @@ export interface Post {
     name: string; 
     slug: string; 
   }[];
+  tags?: { 
+    id: number; 
+    name: string; 
+    slug: string; 
+  }[];
   status?: string;
+  _embedded?: {
+    'wp:term'?: Array<Array<WPTerm>>;
+  };
+}
+
+interface WPTerm {
+  id: number;
+  name: string;
+  slug: string;
+  taxonomy: string;
 }
 
 interface WordPressCategory {
@@ -283,6 +267,8 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
         status: 'publish',
       });
 
+      // Vi filtrerar bort inlägg med taggen "remade-snickeri" efter hämtning istället för med API-parametern
+
       if (categoryId) {
         params.set('categories', categoryId.toString());
       }
@@ -324,8 +310,39 @@ export async function getPosts(categoryId?: number): Promise<Post[]> {
       page++;
     } while (page <= totalPages);
 
-    if (DEBUG) console.log(`[WORDPRESS_API] Successfully fetched ${allPosts.length} posts in total.`);
-    return allPosts;
+    // Filtrera bort inlägg med taggen eller kategorin "remade-snickeri"
+    const filteredPosts = allPosts.filter(post => {
+      // Kontrollera kategorier direkt från post.categories
+      if (post.categories) {
+        for (const category of post.categories) {
+          if (category.slug.toLowerCase().includes('remade') && category.slug.toLowerCase().includes('snickeri')) {
+            if (DEBUG) console.log(`[WORDPRESS_API] Filtering out post with category '${category.slug}': ${post.title.rendered}`);
+            return false;
+          }
+        }
+      }
+
+      // Kontrollera om post._embedded finns och innehåller wp:term för taggar
+      if (post._embedded && post._embedded['wp:term']) {
+        // Gå igenom alla term-listor (kategorier, taggar, etc.)
+        for (const termList of post._embedded['wp:term']) {
+          // Gå igenom alla termer i listan
+          for (const term of termList) {
+            // Om termen är en tagg eller kategori och har slug som innehåller "remade" och "snickeri" (oberoende av skiftläge), filtrera bort inlägget
+            if ((term.taxonomy === 'post_tag' || term.taxonomy === 'category') && 
+                term.slug.toLowerCase().includes('remade') && 
+                term.slug.toLowerCase().includes('snickeri')) {
+              if (DEBUG) console.log(`[WORDPRESS_API] Filtering out post with ${term.taxonomy} '${term.slug}': ${post.title.rendered}`);
+              return false;
+            }
+          }
+        }
+      }
+      return true;
+    });
+
+    if (DEBUG) console.log(`[WORDPRESS_API] Successfully fetched ${allPosts.length} posts, filtered to ${filteredPosts.length} posts.`);
+    return filteredPosts;
 
   } catch (error) {
     console.error('[WORDPRESS_API_ERROR] Error in getPosts function');
