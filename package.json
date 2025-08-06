@@ -17,7 +17,7 @@
     "@astrojs/tailwind": "^6.0.2",
     "@types/react-dom": "^18.2.22",
     "astro": "^5.12.1",
-    "dotenv": "^16.4.7",
+    "dotenv": "^16.6.1",
     "esbuild": "^0.24.2",
     "lucide-react": "^0.475.0",
     "marked": "^12.0.0",

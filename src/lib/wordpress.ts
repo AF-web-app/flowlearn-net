@@ -4,6 +4,7 @@ import https from 'https';
 import fetch, { FetchError } from 'node-fetch';
 import { marked } from 'marked';
 import { DEBUG, getWordPressUrl as getConfigWordPressUrl, logDetailedError, getEnv } from './config';
+import { logWordPressCredentials } from './debug-logger';
 
 // Environment is loaded automatically by config.ts
 
@@ -22,6 +23,10 @@ const httpsAgent = new https.Agent({
  * @returns Record<string, string> Headers för API-anrop
  */
 function getAuthHeaders(): Record<string, string> {
+  // Logga alltid credentials i produktion för felsökning
+  console.log('[WORDPRESS_AUTH] Logging credentials for debugging...');
+  logWordPressCredentials();
+  
   if (DEBUG) console.group('[WORDPRESS_AUTH_DEBUG]');
   const env = getEnv();
   const username = env.WORDPRESS_USERNAME || env.WP_USERNAME;
