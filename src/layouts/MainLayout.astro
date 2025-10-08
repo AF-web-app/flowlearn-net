@@ -4,7 +4,7 @@ interface Props {
   description?: string;
 }
 
-const { title, description = "Flowlearn erbjuder innovativa webbapplikationer och konsulttjänster för att förenkla och förbättra lärande i en digital värld." } = Astro.props;
+const { title, description = "Jag erbjuder IT-support och IKT-pedagogik för att förenkla och förbättra din digitala vardag." } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -40,14 +40,13 @@ const { title, description = "Flowlearn erbjuder innovativa webbapplikationer oc
             <ul class="absolute left-0 mt-2 w-48 bg-slate-800 rounded-lg shadow-lg py-1
                        invisible opacity-0 group-hover:visible group-hover:opacity-100 transition-all duration-200 ease-in-out
                        transform translate-y-2 group-hover:translate-y-0">
-              <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
-              <li><a href="/tjanster/webbapplikationer" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbapplikationer</a></li>
               <li><a href="/tjanster/it-support" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IT-Support</a></li>
-              <li><a href="/tjanster/webbdesign" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbdesign & grafisk design</a></li>
+              <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
+              <li><a href="/tjanster/webbdesign" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbdesign & Grafisk Design</a></li>
             </ul>
           </div>
           <a href="/blogg" class="text-slate-300 hover:text-white transition-colors">Nyheter & Insikter</a>
-          <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors">Om Flowlearn</a>
+          <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors">Om mig</a>
           <a href="/kontakt" class="text-slate-300 hover:text-white transition-colors">Kontakt</a>
         </div>
 
@@ -75,14 +74,13 @@ const { title, description = "Flowlearn erbjuder innovativa webbapplikationer oc
             </svg>
           </button>
           <ul id="mobile-services-menu" class="hidden bg-slate-800 rounded-lg shadow-lg py-1 mt-1">
-            <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
-            <li><a href="/tjanster/webbapplikationer" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbapplikationer</a></li>
             <li><a href="/tjanster/it-support" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IT-Support</a></li>
-            <li><a href="/tjanster/webbdesign" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbdesign</a></li>
+            <li><a href="/tjanster/ikt-pedagogik" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">IKT-Pedagogik</a></li>
+            <li><a href="/tjanster/webbdesign" class="block px-4 py-2 text-slate-300 hover:bg-slate-700 hover:text-white transition-colors">Webbdesign & Grafisk Design</a></li>
           </ul>
         </div>
         <a href="/blogg" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Nyheter</a>
-        <a href="/om-mig" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Om Flowlearn</a>
+        <a href="/om-mig" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Om mig</a>
         <a href="/kontakt" class="block py-3 text-xl text-slate-300 hover:text-white transition-colors">Kontakt</a>
       </div>
     </header>
@@ -97,7 +95,7 @@ const { title, description = "Flowlearn erbjuder innovativa webbapplikationer oc
           <!-- Logga -->
           <div class="flex flex-col items-center md:items-start gap-2">
             <img src="/images/logo.png" alt="Flowlearn Logo" class="h-[4.45rem] w-auto" />
-            <p class="text-slate-300 text-sm italic text-center md:text-left max-w-[220px] leading-snug">Vi förenklar din digitala vardag, med människan i fokus.</p>
+            <p class="text-slate-300 text-sm italic text-center md:text-left max-w-[220px] leading-snug">Jag förenklar din digitala vardag, med människan i fokus.</p>
           </div>
           
           <!-- Sidlänkar -->
@@ -105,11 +103,10 @@ const { title, description = "Flowlearn erbjuder innovativa webbapplikationer oc
             <h3 class="text-white font-semibold text-lg mb-2">Sidor</h3>
             <div class="grid grid-cols-2 gap-x-8 gap-y-2">
               <a href="/" class="text-slate-300 hover:text-white transition-colors text-sm">Hem</a>
-              <a href="/tjanster/ikt-pedagogik" class="text-slate-300 hover:text-white transition-colors text-sm">IKT-Pedagogik</a>
               <a href="/tjanster/it-support" class="text-slate-300 hover:text-white transition-colors text-sm">IT-Support</a>
+              <a href="/tjanster/ikt-pedagogik" class="text-slate-300 hover:text-white transition-colors text-sm">IKT-Pedagogik</a>
               <a href="/tjanster/webbdesign" class="text-slate-300 hover:text-white transition-colors text-sm">Webbdesign</a>
-              <a href="/tjanster/webbapplikationer" class="text-slate-300 hover:text-white transition-colors text-sm">Webbapplikationer</a>
-              <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors text-sm">Om Flowlearn</a>
+              <a href="/om-mig" class="text-slate-300 hover:text-white transition-colors text-sm">Om mig</a>
               <a href="/blogg" class="text-slate-300 hover:text-white transition-colors text-sm">Nyheter</a>
               <a href="/kontakt" class="text-slate-300 hover:text-white transition-colors text-sm">Kontakt</a>
             </div>
@@ -117,7 +114,7 @@ const { title, description = "Flowlearn erbjuder innovativa webbapplikationer oc
           
           <!-- Kontaktuppgifter -->
           <div class="flex flex-col items-center md:items-end gap-2">
-            <h3 class="text-white font-semibold text-lg mb-2">Kontakta oss</h3>
+            <h3 class="text-white font-semibold text-lg mb-2">Kontakta mig</h3>
             <p class="text-slate-300 text-sm">E-post: it@flowlearn.se</p>
             <p class="text-slate-300 text-sm">Telefon: 072-228 00 13</p>
           </div>

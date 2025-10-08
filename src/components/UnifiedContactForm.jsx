@@ -13,7 +13,7 @@ import React, { useState, useEffect } from 'react';
  */
 export default function UnifiedContactForm({
   extended = false,
-  defaultService = 'ikt-pedagogik',
+  defaultService = 'it-support',
   redirectUrl = '/tack',
   contactEmail = 'kontakt@flowlearn.se'
 }) {
@@ -273,10 +273,9 @@ export default function UnifiedContactForm({
                 onChange={handleChange}
                 className="w-full px-4 py-3 bg-slate-800 border border-slate-700 rounded-lg focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition-all"
               >
+                <option value="it-support">IT-Support</option>
                 <option value="ikt-pedagogik">IKT-Pedagogik</option>
-                <option value="it-support">IT-Support & Digitala Lösningar</option>
                 <option value="webbdesign">Webbdesign & Grafisk Design</option>
-                <option value="webbapplikationer">Webbapplikationer</option>
                 <option value="annat">Annat</option>
               </select>
             </div>
