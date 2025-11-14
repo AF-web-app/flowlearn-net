@@ -24,10 +24,7 @@ export default defineConfig({
     mdx(),
     sitemap()
   ],
-  output: 'server',
-  adapter: netlify({
-    edgeMiddleware: false
-  }),
+  output: 'static',
   build: {
     assets: '_assets',
   },
