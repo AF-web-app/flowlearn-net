@@ -9,6 +9,7 @@ dist/
 .vercel/
 .netlify/
 .cache/
+dist-ssr
 
 # Environment variables
 .env
@@ -16,7 +17,6 @@ dist/
 .env.development.local
 .env.test.local
 .env.production.local
-deploy-config-prod.sh
 
 # Logs
 logs
@@ -47,4 +47,6 @@ Thumbs.db
 # Temporary files
 tmp/
 temp/
-.env
+
+# Archive old deployment files (keep for reference but don't track changes)
+archive/
