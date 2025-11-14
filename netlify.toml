@@ -11,6 +11,12 @@
   to = "/.netlify/functions/:splat"
   status = 200
 
+# Fix för Astro SSR routing
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/entry"
+  status = 200
+
 # Säkerhetsheaders
 [[headers]]
   for = "/*"
@@ -19,6 +25,12 @@
     X-Content-Type-Options = "nosniff"
     X-XSS-Protection = "1; mode=block"
     Referrer-Policy = "strict-origin-when-cross-origin"
+
+# Säkerställ korrekt MIME-typ för HTML-filer
+[[headers]]
+  for = "/*.html"
+  [headers.values]
+    Content-Type = "text/html; charset=utf-8"
 
 # Cacha statiska assets längre
 [[headers]]
