@@ -4,7 +4,7 @@ import tailwind from '@astrojs/tailwind';
 import react from '@astrojs/react';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
-import node from '@astrojs/node';
+import netlify from '@astrojs/netlify';
 import 'dotenv/config';
 
 // Importera säkerhetskonfigurationen från vår centraliserade config
@@ -25,13 +25,7 @@ export default defineConfig({
     sitemap()
   ],
   output: 'server',
-  adapter: node({
-    mode: 'standalone'
-  }),
-  server: {
-    host: '0.0.0.0',
-    port: 3000
-  },
+  adapter: netlify(),
   build: {
     assets: '_assets',
   },
