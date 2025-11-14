@@ -1,6 +1,6 @@
 ---
 import MainLayout from '../layouts/MainLayout.astro';
-import ContactForm from '../components/ContactForm';
+import UnifiedContactForm from '../components/UnifiedContactForm';
 
 const title = "Flowlearn | IT-support och IKT-pedagogik för en smidigare digital vardag";
 const description = "Jag hjälper dig med IT-support och IKT-pedagogik för att förenkla och förbättra din digitala vardag. Teknisk expertis kombinerat med pedagogisk förståelse.";
@@ -121,7 +121,13 @@ const description = "Jag hjälper dig med IT-support och IKT-pedagogik för att 
       <div class="flex flex-col items-center mb-8">
         <a href="/kontakt" class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-lg transition-colors text-lg font-medium">Gå till kontaktsidan</a>
       </div>
-      <ContactForm client:visible />
+      <UnifiedContactForm 
+        client:visible 
+        extended={false}
+        defaultService="IT-support"
+        redirectUrl="/tack"
+        contactEmail="andreas@flowlearn.se"
+      />
     </div>
   </section>
 
