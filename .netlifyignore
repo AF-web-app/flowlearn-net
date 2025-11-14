@@ -1,0 +1,5 @@
+# Ignore internal documentation when deploying to Netlify
+NETLIFY-MIGRATION.md
+PROJEKT-ANALYS.md
+README.md
+archive/

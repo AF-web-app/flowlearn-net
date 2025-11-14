@@ -25,7 +25,9 @@ export default defineConfig({
     sitemap()
   ],
   output: 'server',
-  adapter: netlify(),
+  adapter: netlify({
+    edgeMiddleware: false
+  }),
   build: {
     assets: '_assets',
   },
